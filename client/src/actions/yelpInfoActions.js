@@ -5,12 +5,6 @@ const herokuapp = 'https://cors-anywhere.herokuapp.com/';
 
 export const getPopularPlaces = () => dispatch => {
   dispatch(setInfoLoading());
-  // axios.get('/api/yelp').then(res =>
-  //   dispatch({
-  //     type: GET_PLACES,
-  //     payload: res.data.businesses
-  //   })
-  // )
   axios.get(`${herokuapp}https://api.yelp.com/v3/businesses/search`, {
     headers: {
       'Authorization': `Bearer ${process.env.REACT_APP_YELP_KEY}`
@@ -30,6 +24,25 @@ export const getPopularPlaces = () => dispatch => {
   //   // dispatch(returnErrors(err.response.data, err.response.status))
   // );
 };
+
+export const searchPlaces = (query) => dispatch => {
+  dispatch(setInfoLoading());
+  axios.get(`${herokuapp}https://api.yelp.com/v3/businesses/search`, {
+    headers: {
+      'Authorization': `Bearer ${process.env.REACT_APP_YELP_KEY}`
+    },
+    params: {
+      latitude: -41.28664,
+      longitude: 174.77557,
+      term: query
+    }
+  }).then(res =>
+    dispatch({
+      type: GET_PLACES,
+      payload: res.data.businesses
+    })
+  )
+}
 
 export const getPlaces = (categories) => dispatch => {
   dispatch(setInfoLoading());

@@ -4,6 +4,7 @@ import { BrowserRouter, Switch, Route } from 'react-router-dom';
 import Home from './Home';
 import Category from './Category';
 import PlacePage from './PlacePage';
+import GeneralSearch from './GeneralSearch';
 import InfoLoaded from './InfoLoaded';
 
 class Body extends Component {
@@ -26,6 +27,7 @@ class Body extends Component {
         <BrowserRouter>
           <Switch>
             <Route exact path="/" render={ () => <Home /> } />
+            <Route exact path="/search" render={ () => <GeneralSearch /> } />
             <Route exact path="/shops" render={ () => <Category categoryName="shopping" categoryType="shopping" /> } />
             <Route exact path="/eat" render={ () => <Category categoryName="restaurants" categoryType="restaurants" /> } />
             <Route exact path="/bars" render={ () => <Category categoryName="nightlife" categoryType="bars,nightlife" /> } />

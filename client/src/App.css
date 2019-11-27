@@ -240,37 +240,78 @@
 .search-results .row {
   padding: 20px;
   margin-bottom: 20px;
+  border: 1px solid #C6BE91;
   border-radius: 10px;
   /* background-color: #ADD8E6; */
   /* background-color: #AAABBC; */
   background-color: #FBF2C0;
-  box-shadow: 2px 2px 2px 1px #5A5766;
+  box-shadow: 2px 2px 2px 1px #827D93;
 }
 
 .search-result {
+  width: 100%;
   display: flex;
-}
-
-.search-result img {
-  width: 152px;
-  height: 152px;
-  border-radius: 50%;
-  object-fit: cover;
-  align-self: flex-start
 }
 
 .search-result a {
   color: black !important;
 }
 
-.placeholder {
-  background-color: black;
-}
-
 .result-info {
+  width: 70%;
   padding: 0 20px 0 20px;
   flex: 1 1 auto;
 }
+
+.result-image {
+  padding: 0 !important;
+  text-align: center;
+}
+
+.result-image img {
+  width: 152px;
+  height: 152px;
+  border-radius: 50%;
+  object-fit: cover;
+  align-self: flex-start;
+}
+
+.placeholder img {
+  background-color: black;
+}
+
+.search-end {
+  text-align: center;
+}
+
+@media only screen and (max-width: 575px) {
+
+  .search-results {
+    display: block;
+    text-align: center;
+  }
+
+  .result-info {
+    margin-top: 20px;
+    padding: 0 !important;
+  }
+
+  .result-image img {
+    width: 100%;
+    border-radius: 5px;
+    border: 1px solid #C6BE91;
+  }
+
+}
+
+@media only screen and (min-width: 992px) {
+
+  .general .search-results .row {
+    width: 70%;
+  }
+
+}
+
 
 /*** PLACE ***/
 
@@ -349,10 +390,24 @@
 
 /* Reviews */
 
-.reviews ul {
+.place-page .reviews ul {
+  padding: 0;
   text-align: left;
   list-style-type: none;
 }
+
+.place-page .reviews li {
+  color: black;
+  background-color: white;
+  padding: 10px;
+  margin-bottom: 20px;
+  border-radius: 5px;
+}
+
+.place-page .reviews .container {
+  width: 60%;
+}
+
 
 @media only screen and (max-width: 1199px) {
 

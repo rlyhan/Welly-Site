@@ -89,6 +89,8 @@ class SearchResults extends Component {
   render() {
     return (
       <>
+      {
+        this.props.yelpCategories.specificCategories.length > 0 ?
         <Col className="col-12 col-md-3 mb-5">
           <FormGroup>
             <Label for="sort">SORT</Label>
@@ -105,68 +107,62 @@ class SearchResults extends Component {
           <FormGroup>
             <Label for="filter">CATEGORIES</Label>
             <FormGroup check className="filter-box">
-              {
-                this.props.yelpCategories.specificCategories ?
-                <>
-                {
-                  this.props.yelpCategories.specificCategories.map(category => {
-                    return (
-                      <div>
-                        <Label check>
-                          <Input
-                            type="checkbox"
-                            name="filter"
-                            onChange={this.onFilterSelect.bind(this)}
-                            value={category.alias} />{' '}
-                          {category.title}
-                        </Label>
-                      </div>
-                    )
-                  })
-                }
-                </> : <p>Loading...</p>
-              }
+            {
+              this.props.yelpCategories.specificCategories.map(category => {
+                return (
+                  <div>
+                    <Label check>
+                      <Input
+                        type="checkbox"
+                        name="filter"
+                        onChange={this.onFilterSelect.bind(this)}
+                        value={category.alias} />{' '}
+                      {category.title}
+                    </Label>
+                  </div>
+                )
+              })
+            }
             </FormGroup>
             <Button className="mt-2" onClick={this.applyFilters}>Apply</Button>
           </FormGroup>
         </Col>
-        <Col className="col-12 col-md-9">
+      : null }
+      <Col className="col-12 col-md-9">
+      {
+        this.props.yelpInfo.yelpInfo && this.props.yelpInfo.yelpInfo.length > 0 ?
+        <Container className="search-results">
           {
-            this.props.results.yelpInfo && this.props.results.yelpInfo.length > 0 ?
-            <Container className="search-results">
-              {
-                this.props.results.yelpInfo.map(place => {
-                  return (
-                    <Row>
-                      <div className="search-result">
+            this.props.yelpInfo.yelpInfo.map(place => {
+              return (
+                <Row>
+                    {
+                      place.image_url
+                      ? <Col className="result-image col-12 col-sm-4 col-md-4 col-lg-3"><img src={place.image_url} /></Col>
+                      : <Col className="result-image placeholder col-12 col-sm-4 col-md-4 col-lg-3"><img src={require(`../images/home-icons/${this.props.categoryName}.png`)} /></Col>
+                    }
+                    <Col className="result-info col-12 col-sm-8 col-md-8 col-lg-9">
+                      <a href={`/places/${place.id}`}><p className="h5">{place.name.toUpperCase()}</p></a>
+                      <p>
                         {
-                          place.image_url
-                          ? <img className="result-image" src={place.image_url} />
-                          : <img className="placeholder" src={require(`../images/home-icons/${this.props.categoryName}.png`)} />
+                          place.categories.map(category => {
+                            return (category.title)
+                          }).join(", ")
                         }
-                        <div className="result-info">
-                          <a href={`/places/${place.id}`}><p className="h5">{place.name.toUpperCase()}</p></a>
-                          <p>
-                            {
-                              place.categories.map(category => {
-                                return (category.title)
-                              }).join(", ")
-                            }
-                          </p>
-                          <p>{this.getStars(place.rating)} ({place.review_count} reviews)</p>
-                          <p><i>{place.location.display_address.join(", ")}
-                          </i></p>
-                        </div>
-                      </div>
-                    </Row>
-                  );
-                })
-              }
-            </Container>
-            : this.props.yelpInfo.loading ? <img className="loading-animation" src={require('../images/loading.gif')}/>
-            : <div>No results</div>
+                      </p>
+                      <p>{this.getStars(place.rating)} ({place.review_count} reviews)</p>
+                      <p><i>{place.location.display_address.join(", ")}
+                      </i></p>
+                    </Col>
+                </Row>
+              )
+            })
           }
-        </Col>
+        </Container>
+        : this.props.yelpInfo.loading ? <div className="search-end"><img className="loading-animation" src={require('../images/loading.gif')}/></div>
+        : <div className="search-end">No results</div>
+      }
+      </Col>
       </>
     );
   }
