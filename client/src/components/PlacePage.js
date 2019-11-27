@@ -1,10 +1,10 @@
-import React, { Component } from 'react';
-import { Container, Row, Col, TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, UncontrolledCarousel } from 'reactstrap';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import React, { Component } from 'react'
+import { Container, Row, Col, TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, UncontrolledCarousel } from 'reactstrap'
+import { connect } from 'react-redux'
+import PropTypes from 'prop-types'
 
-import { getSpecificPlace } from '../actions/yelpInfoActions';
-import { getReviews } from '../actions/yelpReviewsActions';
+import { getSpecificPlace } from '../actions/yelpInfoActions'
+import { getReviews } from '../actions/yelpReviewsActions'
 
 class PlacePage extends Component {
 
@@ -13,7 +13,7 @@ class PlacePage extends Component {
   }
 
   constructor(props) {
-    super(props);
+    super(props)
     console.log(props)
     this.state = {
       activeTab: "1"
@@ -36,6 +36,8 @@ class PlacePage extends Component {
   render() {
 
     const weekdays = ['Monday', 'Tuesday', 'Wednesday', 'Thursday', 'Friday', 'Saturday', 'Sunday']
+
+    let { yelpInfo } = this.props.yelpInfo
 
     return (
       <Container className="place-page">
@@ -61,51 +63,50 @@ class PlacePage extends Component {
             <Container>
               <Row>
                 <Col className="col-12 col-md-4 px-0">
-                  {
-                    this.props.yelpInfo.yelpInfo ?
-                    <img src={this.props.yelpInfo.yelpInfo.image_url} />
-                    : null
-                  }
+                  <img src={yelpInfo.image_url} />
                 </Col>
                 <Col className="col-12 col-md-8">
                   <Container className="paragraph my-5">
-                  {
-                    this.props.yelpInfo.yelpInfo ?
-                    <>
-                      <Row className="heading">
-                        <h3>{`${this.props.yelpInfo.yelpInfo.name}`.toUpperCase()}</h3>
-                      </Row>
-                      <Row className="heading">
+                    <Row className="heading">
+                      <h3>{`${yelpInfo.name}`.toUpperCase()}</h3>
+                    </Row>
+                    <Row className="heading">
+                    {
+                      yelpInfo.location &&
+                      <p>{yelpInfo.location.display_address.join(", ")}</p>
+                    }
+                    </Row>
+                    <Row className="heading">
+                      <p>
                       {
-                        this.props.yelpInfo.yelpInfo.location ?
-                        <p>{this.props.yelpInfo.yelpInfo.location.display_address.join(", ")}</p>
-                        : null
+                        yelpInfo.categories &&
+                        yelpInfo.categories.map(category => {
+                          return (category.title)
+                        }).join(", ")
                       }
-                      </Row>
-                      <Row className="desc">
-                        <Col>
-                          <ul>
-                            <li><strong>HOURS</strong></li>
-                            {
-                              this.props.yelpInfo.yelpInfo.hours?
-                              this.props.yelpInfo.yelpInfo.hours[0].open.map((day, index) => {
-                                return (
-                                  <li>{weekdays[index]}: {day.start} - {day.end}</li>
-                                )
-                              }) : null
-                            }
-                          </ul>
-                        </Col>
-                        <Col>
-                          <p className="mb-0"><strong>PRICE RANGE:</strong></p>
-                          <p>{this.props.yelpInfo.yelpInfo.price}</p>
-                          <p className="mb-0"><strong>PHONE:</strong></p>
-                          <p>{this.props.yelpInfo.yelpInfo.display_phone}</p>
-                        </Col>
-                      </Row>
-                    </>
-                    : null
-                  }
+                      </p>
+                    </Row>
+                    <Row className="desc">
+                      <Col>
+                        <ul>
+                          <li><strong>HOURS</strong></li>
+                          {
+                            yelpInfo.hours ?
+                            yelpInfo.hours[0].open.map((day, index) => {
+                              return (
+                                <li>{weekdays[index]}: {day.start} - {day.end}</li>
+                              )
+                            }) : "No hours available"
+                          }
+                        </ul>
+                      </Col>
+                      <Col>
+                        <p className="mb-0"><strong>PRICE RANGE:</strong></p>
+                        <p>{yelpInfo.price}</p>
+                        <p className="mb-0"><strong>PHONE:</strong></p>
+                        <p>{yelpInfo.display_phone}</p>
+                      </Col>
+                    </Row>
                   </Container>
                 </Col>
               </Row>
@@ -114,14 +115,13 @@ class PlacePage extends Component {
           <TabPane tabId="2" className="photos">
             <Container>
             {
-              this.props.yelpInfo.yelpInfo && this.props.yelpInfo.yelpInfo.photos ?
-              <UncontrolledCarousel items={this.props.yelpInfo.yelpInfo.photos.map(photo => { return { src: photo } })} />
-              : null
+              yelpInfo.photos &&
+              <UncontrolledCarousel items={yelpInfo.photos.map(photo => { return { src: photo } })} />
             }
             </Container>
           </TabPane>
           <TabPane tabId="3" className="reviews">
-            <Container className="my-5">
+            <Container className="py-5">
               <ul>
               {
                 this.props.yelpReviews.yelpReviews ?
@@ -148,6 +148,6 @@ class PlacePage extends Component {
 const mapStateToProps = (state) => ({
   yelpInfo: state.yelpInfo,
   yelpReviews: state.yelpReviews
-});
+})
 
-export default connect(mapStateToProps, { getSpecificPlace, getReviews })(PlacePage);
+export default connect(mapStateToProps, { getSpecificPlace, getReviews })(PlacePage)

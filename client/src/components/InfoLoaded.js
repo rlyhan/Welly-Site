@@ -28,7 +28,7 @@ class InfoLoaded extends Component {
     return (
       <>
         {
-          this.state.yelpInfo.yelpInfo ? this.props.children : null
+          this.props.yelpInfo.yelpInfo ? this.props.children : null
         }
       </>
     )

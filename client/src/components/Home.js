@@ -16,13 +16,11 @@ import axios from 'axios';
 import { connect } from 'react-redux';
 import PropTypes from 'prop-types';
 
-import SearchResults from './SearchResults';
-
 import { getCurrentWeather } from '../actions/airvisualInfoActions';
 import { getPopularPlaces } from '../actions/yelpInfoActions';
 import { displayNavbar, hideNavbar } from '../actions/otherActions';
 
-import '../App.css';
+import GeneralSearch from './GeneralSearch';
 
 const ref = React.createRef();
 
@@ -90,7 +88,7 @@ class Home extends Component {
           </Container>
           <Container>
             <Row>
-              <div className="weather-panel bg-transparent border-0">
+              <div className="weather-panel bg-transparent border-0 text-center">
               {
                 this.props.airvisualInfo.loading ?
                 <img className="loading-animation" src={require('../images/loading.gif')}/>
@@ -150,29 +148,7 @@ class Home extends Component {
           </Container>
         </Jumbotron>
         <div className="scrolldown" ref={ref} onClick={this.handleScroll}><span></span></div>
-        <Container className="mb-5">
-          <Row className="mx-auto my-5 justify-content-center">
-            <h3 className="display-4">Browse all places, events, services and more</h3>
-          </Row>
-          <Row className="mb-5">
-            <Container className="search">
-              <div className="search-bar">
-                <input type="text" name=""></input>
-                <a><i className="fa fa-search"></i></a>
-              </div>
-            </Container>
-          </Row>
-          <Row>
-          {
-            this.props.yelpInfo.loading ?
-            <p>Loading...</p>
-            : <SearchResults
-                results={this.props.yelpInfo}
-                categories={this.props.yelpCategories}
-              />
-          }
-          </Row>
-        </Container>
+        <GeneralSearch />
       </div>
     )
   }
