@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Collapse,
   Navbar,
@@ -6,21 +6,22 @@ import {
   NavbarBrand,
   Nav,
   NavItem,
-  NavLink,
-  Container
-} from 'reactstrap';
-import '../App.css';
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+  NavLink
+} from 'reactstrap'
+import '../App.css'
+import { connect } from 'react-redux'
 
+import RegisterModal from './modals/RegisterModal'
+import LoginModal from './modals/LoginModal'
+import { logout } from '../actions/authActions'
 
 class NavMenu extends Component {
 
   constructor(props) {
-    super(props);
+    super(props)
     this.state = {
-      isOpen: false //modal
-    };
+      isOpen: false
+    }
   }
 
   state = {
@@ -30,7 +31,7 @@ class NavMenu extends Component {
   toggle = () => {
     this.setState({
       isOpen: !this.state.isOpen
-    });
+    })
   }
 
   render() {
@@ -38,7 +39,7 @@ class NavMenu extends Component {
       <>
       {
         this.props.other.navbarShowing ?
-        <Navbar className="navigation fixed-top py-4 " style={{width: '100vw', backgroundColor: '#ADD8E6'}} dark expand="lg">
+        <Navbar className="navigation fixed-top py-4" style={{width: '100vw', backgroundColor: '#ADD8E6'}} dark expand="lg">
           <NavbarBrand href="/" className="logo px-3">WELLY.</NavbarBrand>
           <NavbarToggler onClick={this.toggle} className="pr-3" />
           <Collapse isOpen={this.state.isOpen} navbar>
@@ -53,19 +54,45 @@ class NavMenu extends Component {
                 <NavLink href="/bars" className="px-3" style={{color: 'white', fontWeight: 600}}>BARS & NIGHTLIFE</NavLink>
               </NavItem>
               <NavItem>
+                <NavLink href="/search" className="px-3" style={{color: 'white', fontWeight: 600}}>BROWSE ALL</NavLink>
+              </NavItem>
+              {/*
+              <NavItem>
                 <NavLink href="/events" className="px-3" style={{color: 'white', fontWeight: 600}}>EVENTS</NavLink>
               </NavItem>
               <NavItem>
                 <NavLink href="/services" className="px-3" style={{color: 'white', fontWeight: 600}}>SERVICES</NavLink>
               </NavItem>
+              */}
             </Nav>
             <Nav navbar className="ml-auto pr-4" style={{backgroundColor: '#ADD8E6'}}>
-              <NavItem>
-                <NavLink href="/login" className="px-3" style={{color: 'white', fontWeight: 600}}>LOGIN</NavLink>
-              </NavItem>
-              <NavItem>
-                <NavLink href="/register" className="px-3" style={{color: 'white', fontWeight: 600}}>REGISTER</NavLink>
-              </NavItem>
+            {
+              this.props.auth.loading ?
+              null
+              :
+              <>
+              {
+                this.props.auth.authenticated ?
+                <>
+                  <NavItem className="profile-button">
+                    <NavLink href="/profile" className="px-3" style={{color: 'white', fontWeight: 600}}>PROFILE</NavLink>
+                  </NavItem>
+                  <NavItem className="logout-button">
+                    <NavLink className="px-3" style={{color: 'white', fontWeight: 600}} onClick={this.props.logout}>LOGOUT</NavLink>
+                  </NavItem>
+                </>
+                :
+                <>
+                  <NavItem>
+                    <LoginModal />
+                  </NavItem>
+                  <NavItem>
+                    <RegisterModal />
+                  </NavItem>
+                </>
+              }
+              </>
+            }
             </Nav>
           </Collapse>
         </Navbar>
@@ -76,13 +103,10 @@ class NavMenu extends Component {
   }
 }
 
-NavMenu.propTypes = {
-  other: PropTypes.object.isRequired
-}
-
 const mapStateToProps = (state) => ({
+  auth: state.auth,
   other: state.other
-});
+})
 
 
-export default connect(mapStateToProps)(NavMenu);
+export default connect(mapStateToProps, { logout })(NavMenu)

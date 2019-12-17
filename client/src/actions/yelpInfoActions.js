@@ -1,94 +1,59 @@
 import axios from 'axios';
-import { INFO_LOADING, GET_POPULAR_PLACES, GET_PLACES, GET_SPECIFIC_PLACE } from './types';
-
-const herokuapp = 'https://cors-anywhere.herokuapp.com/';
+import { INFO_LOADING, GET_PLACES, GET_SPECIFIC_PLACE, LOADING_ERROR } from './types';
 
 export const getPopularPlaces = () => dispatch => {
   dispatch(setInfoLoading());
-  axios.get(`${herokuapp}https://api.yelp.com/v3/businesses/search`, {
-    headers: {
-      'Authorization': `Bearer ${process.env.REACT_APP_YELP_KEY}`
-    },
-    params: {
-      latitude: -41.28664,
-      longitude: 174.77557
-    }
-  }).then(res =>
+  axios.get('/api/yelp/popular')
+  .then(res =>
     dispatch({
       type: GET_PLACES,
       payload: res.data.businesses
     })
   )
-  // .catch(err =>
-  //   console.log(err);
-  //   // dispatch(returnErrors(err.response.data, err.response.status))
-  // );
+  .catch(err =>
+    dispatch({ type: LOADING_ERROR })
+  )
 };
 
 export const searchPlaces = (query) => dispatch => {
   dispatch(setInfoLoading());
-  axios.get(`${herokuapp}https://api.yelp.com/v3/businesses/search`, {
-    headers: {
-      'Authorization': `Bearer ${process.env.REACT_APP_YELP_KEY}`
-    },
-    params: {
-      latitude: -41.28664,
-      longitude: 174.77557,
-      term: query
-    }
-  }).then(res =>
+  axios.get(`/api/yelp/search/${query}`)
+  .then(res =>
     dispatch({
       type: GET_PLACES,
       payload: res.data.businesses
     })
   )
+  .catch(err =>
+    dispatch({ type: LOADING_ERROR })
+  )
 }
 
-export const getPlaces = (categories) => dispatch => {
+export const getPlacesByCategory = (categories, page) => dispatch => {
   dispatch(setInfoLoading());
-  axios.get(`${herokuapp}https://api.yelp.com/v3/businesses/search`, {
-    headers: {
-      'Authorization': `Bearer ${process.env.REACT_APP_YELP_KEY}`
-    },
-    params: {
-      latitude: -41.28664,
-      longitude: 174.77557,
-      categories: categories,
-      limit: 50
-    }
-  }).then(res =>{
+  axios.get(`/api/yelp/category/${categories}/page/${page}`)
+  .then(res =>
     dispatch({
       type: GET_PLACES,
       payload: res.data.businesses
     })
-  })
-}
-
-export const sortPlaces = (places, key) => dispatch => {
-  dispatch({
-    type: GET_PLACES,
-    payload: places.sort(function(a, b) {
-      if (a[key] < b[key]) {
-        return 1;
-      } else if (a[key] > b[key]) {
-        return -1;
-      }
-      return 0;
-    })
-  })
+  )
+  .catch(err =>
+    dispatch({ type: LOADING_ERROR })
+  )
 }
 
 export const getSpecificPlace = (id) => dispatch => {
   dispatch(setInfoLoading());
-  axios.get(`${herokuapp}https://api.yelp.com/v3/businesses/${id}`, {
-    headers: {
-      'Authorization': `Bearer ${process.env.REACT_APP_YELP_KEY}`
-    }
-  }).then(res =>
+  axios.get(`/api/yelp/place/${id}`)
+  .then(res =>
     dispatch({
       type: GET_SPECIFIC_PLACE,
       payload: res.data
     })
+  )
+  .catch(err =>
+    dispatch({ type: LOADING_ERROR })
   )
 };
 

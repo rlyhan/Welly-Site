@@ -1,4 +1,4 @@
-import { INFO_LOADING, GET_CURRENT_WEATHER } from '../actions/types';
+import { WEATHER_LOADING, GET_CURRENT_WEATHER } from '../actions/types';
 
 const initialState = {
   airvisualInfo: [],
@@ -35,7 +35,7 @@ export default function(state = initialState, action) {
         weatherIcon: getWeatherIcon(action.payload),
         loading: false
       }
-    case INFO_LOADING:
+    case WEATHER_LOADING:
       return {
         loading: true
       }

@@ -1,28 +1,38 @@
 import React, { Component } from 'react'
-import { Container, Row, Col, TabContent, TabPane, Nav, NavItem, NavLink, Card, Button, CardTitle, CardText, UncontrolledCarousel } from 'reactstrap'
+import {
+  Container,
+  Row,
+  Col,
+  TabContent,
+  TabPane,
+  Nav,
+  NavItem,
+  NavLink,
+  Button,
+  Card,
+  CardBody,
+  CardTitle,
+  CardSubtitle,
+  CardText,
+  UncontrolledCarousel
+} from 'reactstrap'
 import { connect } from 'react-redux'
 import PropTypes from 'prop-types'
 
 import { getSpecificPlace } from '../actions/yelpInfoActions'
 import { getReviews } from '../actions/yelpReviewsActions'
+import { addToFavourites, removeFromFavourites } from '../actions/authActions'
 
 class PlacePage extends Component {
-
-  static propTypes = {
-    yelpInfo: PropTypes.object.isRequired
-  }
 
   constructor(props) {
     super(props)
     console.log(props)
     this.state = {
-      activeTab: "1"
+      activeTab: "1",
+      addButtonDisabled: false,
+      removeButtonDisabled: false
     }
-  }
-
-  componentDidMount() {
-    // this.props.getSpecificPlace(this.props.id)
-    // this.props.getReviews(this.props.id)
   }
 
   getStars = (number) => {
@@ -31,6 +41,29 @@ class PlacePage extends Component {
       stars += '★'
     }
     return stars
+  }
+
+  addToFavourites = () => {
+
+    this.setState({
+      addButtonDisabled: true,
+      removeButtonDisabled: false
+    })
+
+    const placeInfo = {
+      name: this.props.yelpInfo.yelpInfo.name,
+      yelpId: this.props.yelpInfo.yelpInfo.id
+    }
+
+    this.props.addToFavourites(placeInfo, this.props.auth.user._id)
+  }
+
+  removeFromFavourites = () => {
+    this.props.removeFromFavourites(this.props.yelpInfo.yelpInfo.id, this.props.auth.user._id)
+    this.setState({
+      addButtonDisabled: false,
+      removeButtonDisabled: true
+    })
   }
 
   render() {
@@ -62,22 +95,20 @@ class PlacePage extends Component {
           <TabPane tabId="1" className="details">
             <Container>
               <Row>
-                <Col className="col-12 col-md-4 px-0">
-                  <img src={yelpInfo.image_url} />
+                <Col className="col-12 col-md-4 my-auto px-4" style={{padding: "none"}}>
+                  {
+                    yelpInfo.image_url ?
+                    <img src={yelpInfo.image_url} style={{ border: "2px solid white" }}/>
+                    : <img className="placeholder" src={require(`../images/place-placeholder.png`)} />
+                  }
                 </Col>
-                <Col className="col-12 col-md-8">
+                <Col className="col-12 col-md-8 px-4">
                   <Container className="paragraph my-5">
                     <Row className="heading">
                       <h3>{`${yelpInfo.name}`.toUpperCase()}</h3>
                     </Row>
                     <Row className="heading">
-                    {
-                      yelpInfo.location &&
-                      <p>{yelpInfo.location.display_address.join(", ")}</p>
-                    }
-                    </Row>
-                    <Row className="heading">
-                      <p>
+                      <p className="mb-0">
                       {
                         yelpInfo.categories &&
                         yelpInfo.categories.map(category => {
@@ -85,6 +116,33 @@ class PlacePage extends Component {
                         }).join(", ")
                       }
                       </p>
+                    </Row>
+                    <Row className="heading">
+                      <h5><span style={{color: 'yellow'}}>{this.getStars(yelpInfo.rating)}</span> <span style={{fontSize: '15px'}}>({yelpInfo.review_count} reviews)</span></h5>
+                    </Row>
+                    <Row className="heading">
+                      <p className="mb-0">
+                      {
+                        yelpInfo.location &&
+                        yelpInfo.location.display_address.join(", ")
+                      }
+                      </p>
+                    </Row>
+                    <Row className="favourite-button">
+                    {
+                      this.props.auth.authenticated && this.props.auth.user.favouritePlaces ?
+                      <>
+                      {
+                        this.props.auth.user.favouritePlaces.find(place => {
+                          return place.yelpId == this.props.url
+                        }) != null ?
+                        <Button className="my-2" color="danger" onClick={this.removeFromFavourites} disabled={this.state.removeButtonDisabled}>REMOVE FROM FAVOURITES</Button>
+                        :
+                        <Button className="my-2" color="success" onClick={this.addToFavourites} disabled={this.state.addButtonDisabled}>ADD TO FAVOURITES</Button>
+                      }
+                      </>
+                      : null
+                    }
                     </Row>
                     <Row className="desc">
                       <Col>
@@ -94,7 +152,7 @@ class PlacePage extends Component {
                             yelpInfo.hours ?
                             yelpInfo.hours[0].open.map((day, index) => {
                               return (
-                                <li>{weekdays[index]}: {day.start} - {day.end}</li>
+                                <li key={index}>{weekdays[index]}: {day.start} - {day.end}</li>
                               )
                             }) : "No hours available"
                           }
@@ -113,28 +171,35 @@ class PlacePage extends Component {
             </Container>
           </TabPane>
           <TabPane tabId="2" className="photos">
-            <Container>
             {
-              yelpInfo.photos &&
-              <UncontrolledCarousel items={yelpInfo.photos.map(photo => { return { src: photo } })} />
+              yelpInfo.photos && yelpInfo.photos.length > 0 ?
+              <Container><UncontrolledCarousel className="py-5" items={yelpInfo.photos.map(photo => { return { src: photo } })} /></Container>
+              :
+              <Container className="py-5"><p className="text-center">No photos available.</p></Container>
             }
-            </Container>
           </TabPane>
           <TabPane tabId="3" className="reviews">
             <Container className="py-5">
               <ul>
               {
                 this.props.yelpReviews.yelpReviews ?
-                this.props.yelpReviews.yelpReviews.map(review => {
+                this.props.yelpReviews.yelpReviews.map((review, index) => {
                   return (
-                    <li>
-                      <h4>{this.getStars(review.rating)}</h4>
-                      <p>{review.user.name}, {review.time_created}</p>
-                      <p>{review.text}</p>
+                    <li key={index}>
+                      <Card style={{backgroundColor: "#323031"}}>
+                        <CardBody>
+                          <CardTitle style={{color: "yellow"}}>{this.getStars(review.rating)}</CardTitle>
+                          <CardSubtitle style={{fontWeight: "bold"}}>{(review.user.name).toUpperCase()}</CardSubtitle>
+                        </CardBody>
+                        <CardBody className="pt-0">
+                          <CardText>{review.time_created}</CardText>
+                          <CardText>{review.text}</CardText>
+                        </CardBody>
+                      </Card>
                     </li>
                   )
                 })
-                : null
+                : <p className="text-center">No reviews available.</p>
               }
               </ul>
             </Container>
@@ -147,7 +212,8 @@ class PlacePage extends Component {
 
 const mapStateToProps = (state) => ({
   yelpInfo: state.yelpInfo,
-  yelpReviews: state.yelpReviews
+  yelpReviews: state.yelpReviews,
+  auth: state.auth
 })
 
-export default connect(mapStateToProps, { getSpecificPlace, getReviews })(PlacePage)
+export default connect(mapStateToProps, { getSpecificPlace, getReviews, addToFavourites, removeFromFavourites })(PlacePage)

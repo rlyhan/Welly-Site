@@ -1,5 +1,5 @@
 import axios from 'axios';
-import { INFO_LOADING, GET_CURRENT_WEATHER } from './types';
+import { WEATHER_LOADING, GET_CURRENT_WEATHER } from './types';
 
 export const getCurrentWeather = () => dispatch => {
   dispatch(setInfoLoading());
@@ -18,6 +18,6 @@ export const getCurrentWeather = () => dispatch => {
 
 export const setInfoLoading = () => {
   return {
-    type: INFO_LOADING
+    type: WEATHER_LOADING
   }
 }

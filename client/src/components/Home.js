@@ -59,13 +59,11 @@ class Home extends Component {
         navbarShowing: true
       });
       this.props.displayNavbar();
-      console.log(this.props.other.navbarShowing)
     } else if (window.pageYOffset < 500 && this.state.navbarShowing) {
       this.setState({
         navbarShowing: false
       });
       this.props.hideNavbar();
-      console.log(this.props.other.navbarShowing)
     }
   }
 
@@ -84,7 +82,7 @@ class Home extends Component {
             <img src={require('../images/wellington-day.jpg')}></img>
           </div>
           <Container>
-            <h1 className="logo text-center" style={{color: 'white', fontSize: '90px', marginTop: '60px'}}>WELLY.</h1>
+            <h1 className="logo text-center" style={{color: 'white', fontSize: '90px', marginTop: '40px'}}>WELLY.</h1>
           </Container>
           <Container>
             <Row>
@@ -103,8 +101,8 @@ class Home extends Component {
               }
               </div>
             </Row>
-            <Row className="home-links text-center">
-              <Col>
+            <Row className="home-links text-center my-2">
+              <Col className="col-12 col-sm-4">
                 <Card>
                   <a href="/shops"><CardBody>
                     <CardImg src={require('../images/home-icons/shopping.png')}></CardImg>
@@ -112,7 +110,7 @@ class Home extends Component {
                 </Card>
                 <CardTitle>SHOP</CardTitle>
               </Col>
-              <Col>
+              <Col className="col-12 col-sm-4">
                 <Card>
                   <a href="/eat"><CardBody>
                     <CardImg src={require('../images/home-icons/restaurants.png')}></CardImg>
@@ -120,7 +118,7 @@ class Home extends Component {
                 </Card>
                 <CardTitle>EAT</CardTitle>
               </Col>
-              <Col>
+              <Col className="col-12 col-sm-4">
                 <Card>
                   <a href="/bars"><CardBody>
                     <CardImg src={require('../images/home-icons/nightlife.png')}></CardImg>
@@ -128,6 +126,7 @@ class Home extends Component {
                 </Card>
                 <CardTitle>BARS & NIGHTLIFE</CardTitle>
               </Col>
+              {/*   this is for stretch      padding/margin around existing categories to pull them in closer
               <Col>
                 <Card>
                   <CardBody>
@@ -144,10 +143,12 @@ class Home extends Component {
                 </Card>
                 <CardTitle>SERVICES</CardTitle>
               </Col>
+              */}
             </Row>
           </Container>
         </Jumbotron>
-        <div className="scrolldown" ref={ref} onClick={this.handleScroll}><span></span></div>
+        <div className="scrolldown" onClick={this.handleScroll}><span></span></div>
+        <span ref={ref}></span>
         <GeneralSearch />
       </div>
     )
