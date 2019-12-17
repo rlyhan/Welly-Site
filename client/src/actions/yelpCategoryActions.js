@@ -1,35 +1,24 @@
 import axios from 'axios';
-import { ALL_CATEGORIES_LOADING, SPECIFIC_CATEGORIES_LOADING, GET_ALL_CATEGORIES, GET_SPECIFIC_CATEGORIES } from './types';
-
-const herokuapp = 'https://cors-anywhere.herokuapp.com/';
+import { ALL_CATEGORIES_LOADING, SPECIFIC_CATEGORIES_LOADING, GET_ALL_CATEGORIES, GET_SPECIFIC_CATEGORIES, LOADING_ERROR } from './types';
 
 export const getAllCategories = () => dispatch => {
   dispatch(setAllCategoriesLoading());
-  axios.get(`${herokuapp}https://api.yelp.com/v3/categories`, {
-    headers: {
-      'Authorization': `Bearer ${process.env.REACT_APP_YELP_KEY}`
-    },
-    params: {
-      locale: 'en_NZ'
-    }
-  }).then(res =>
+  axios.get('/api/yelp/categories')
+  .then(res =>
     dispatch({
       type: GET_ALL_CATEGORIES,
       payload: res.data.categories.sort((a, b) => { return a.title > b.title })
     })
   )
+  .catch(err =>
+    dispatch({ type: LOADING_ERROR })
+  )
 }
 
 export const getSpecificCategories = (specificCategory) => dispatch => {
   dispatch(setSpecificCategoriesLoading());
-  axios.get(`${herokuapp}https://api.yelp.com/v3/categories`, {
-    headers: {
-      'Authorization': `Bearer ${process.env.REACT_APP_YELP_KEY}`
-    },
-    params: {
-      locale: 'en_NZ'
-    }
-  }).then(res =>
+  axios.get('/api/yelp/categories')
+  .then(res =>
     dispatch({
       type: GET_SPECIFIC_CATEGORIES,
       payload: res.data.categories.filter(category => {
@@ -43,6 +32,9 @@ export const getSpecificCategories = (specificCategory) => dispatch => {
         return 0;
       })
     })
+  )
+  .catch(err =>
+    dispatch({ type: LOADING_ERROR })
   )
 }
 

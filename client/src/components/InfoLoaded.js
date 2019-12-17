@@ -1,35 +1,47 @@
 import React, { Component } from 'react'
-import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
+import { connect } from 'react-redux'
 
-import { getSpecificPlace } from '../actions/yelpInfoActions';
-import { getReviews } from '../actions/yelpReviewsActions';
+import { getSpecificPlace, getPlacesByCategory } from '../actions/yelpInfoActions'
+import { getSpecificCategories } from '../actions/yelpCategoryActions'
+import { getReviews } from '../actions/yelpReviewsActions'
 
 class InfoLoaded extends Component {
 
-  static propTypes = {
-    yelpInfo: PropTypes.object.isRequired,
-    yelpReviews: PropTypes.object.isRequired
-  }
-
-
   constructor(props) {
     super(props)
-    console.log(props)
-
   }
 
   componentDidMount() {
-    this.props.getSpecificPlace(this.props.id)
-    this.props.getReviews(this.props.id)
+    if (this.props.page === 'category') {
+      this.props.getSpecificCategories(this.props.categoryType)
+    } else if (this.props.page === 'place-page') {
+      this.props.getSpecificPlace(this.props.id)
+      this.props.getReviews(this.props.id)
+    }
   }
 
   render() {
     return (
       <>
+      {
+        this.props.page === 'category' ?
+        <>
         {
-          this.props.yelpInfo.yelpInfo ? this.props.children : null
+          this.props.yelpCategories.specificCategories ? this.props.children
+          : this.props.yelpCategories.loading ? <div className="search-end"><img className="loading-animation" src={require('../images/loading.gif')}/></div>
+          : null
         }
+        </>
+        : this.props.page === 'place-page' ?
+        <>
+        {
+          this.props.yelpInfo.yelpInfo ? this.props.children
+          : this.props.yelpInfo.loading ? <div className="search-end"><img className="loading-animation" src={require('../images/loading.gif')}/></div>
+          : null
+        }
+        </>
+        : null
+      }
       </>
     )
   }
@@ -38,7 +50,8 @@ class InfoLoaded extends Component {
 
 const mapStateToProps = (state) => ({
   yelpInfo: state.yelpInfo,
+  yelpCategories: state.yelpCategories,
   yelpReviews: state.yelpReviews
-});
+})
 
-export default connect(mapStateToProps, { getSpecificPlace, getReviews })(InfoLoaded);
+export default connect(mapStateToProps, { getSpecificPlace, getPlacesByCategory, getSpecificCategories, getReviews })(InfoLoaded)

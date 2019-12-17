@@ -1,12 +1,8 @@
 import React, { Component } from 'react';
-import { Container, Row, Col } from 'reactstrap';
+import { Container, Row } from 'reactstrap';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
-import { createBrowserHistory } from 'history';
 
 import { searchPlaces } from '../actions/yelpInfoActions';
-
-const history = createBrowserHistory();
 
 class SearchBar extends Component {
 
@@ -46,24 +42,9 @@ class SearchBar extends Component {
             </div>
           </Container>
         </Row>
-        <Row>
-        {/*
-          this.props.yelpInfo.loading ?
-          <p>Loading...</p>
-          : <SearchResults
-              results={this.props.yelpInfo}
-              categories={this.props.yelpCategories}
-            />
-        */}
-        </Row>
       </Container>
     )
   }
-}
-
-SearchBar.propTypes = {
-  yelpInfo: PropTypes.object.isRequired,
-  searchPlaces: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({
