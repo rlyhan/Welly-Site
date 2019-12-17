@@ -30,7 +30,7 @@ class Body extends Component {
           <Switch>
             <Route exact path="/" render={ () => <Home /> } />
             <Route exact path="/profile" render={ () => localStorage.getItem('token') != null ? <Profile /> : <Redirect to={{ pathname: '/' }} /> } />
-            <Route exact path="/search" render={ () => <GeneralSearch /> } />
+            <Route exact path="/search" render={ () => <InfoLoaded page="generalSearch"><GeneralSearch /></InfoLoaded> } />
             <Route exact path="/shops" render={ () => <InfoLoaded page="category" categoryType="shopping"><Category categoryName="shopping" categoryType="shopping" /></InfoLoaded> } />
             <Route exact path="/eat" render={ () => <InfoLoaded page="category" categoryType="restaurants"><Category categoryName="restaurants" categoryType="restaurants" /></InfoLoaded> } />
             <Route exact path="/bars" render={ () => <InfoLoaded page="category" categoryType="bars,nightlife"><Category categoryName="nightlife" categoryType="bars,nightlife" /></InfoLoaded> } />

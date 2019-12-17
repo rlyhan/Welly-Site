@@ -18,6 +18,8 @@ import { getSpecificCategories } from '../actions/yelpCategoryActions';
 import { getPlacesByCategory } from '../actions/yelpInfoActions';
 import { displayNavbar, hideNavbar } from '../actions/otherActions';
 
+import SearchResults from './SearchResults'
+
 class Category extends Component {
 
   constructor(props) {
@@ -162,14 +164,6 @@ class Category extends Component {
     })
   }
 
-  getStars = (number) => {
-    let stars = '★'.repeat(number)
-    if (number % 1 == 0.5) {
-      stars += '★'
-    }
-    return stars
-  }
-
   render() {
 
     return (
@@ -214,34 +208,7 @@ class Category extends Component {
           <Col className="col-12 col-md-9">
           {
             this.state.yelpInfo ?
-            <Container className="search-results">
-              {
-                this.sortResults(this.state.yelpInfo, this.state.sortMethod).map((place, index) => {
-                  return (
-                    <Row key={index}>
-                        {
-                          place.image_url
-                          ? <Col className="result-image col-12 col-sm-4 col-md-4 col-lg-3"><img src={place.image_url} /></Col>
-                          : <Col className="result-image placeholder col-12 col-sm-4 col-md-4 col-lg-3"><img src={require(`../images/home-icons/${this.props.categoryName}.png`)} /></Col>
-                        }
-                        <Col className="result-info col-12 col-sm-8 col-md-8 col-lg-9">
-                          <a href={`/places/${place.id}`}><p className="h5">{place.name.toUpperCase()}</p></a>
-                          <p>
-                            {
-                              place.categories.map(category => {
-                                return (category.title)
-                              }).join(", ")
-                            }
-                          </p>
-                          <p>{this.getStars(place.rating)} ({place.review_count} reviews)</p>
-                          <p><i>{place.location.display_address.join(", ")}
-                          </i></p>
-                        </Col>
-                    </Row>
-                  )
-                })
-              }
-            </Container>
+            <SearchResults results={this.sortResults(this.state.yelpInfo, this.state.sortMethod)} category={this.props.categoryName} />
             : this.props.yelpInfo.loading ? <div className="search-end"><img className="loading-animation" src={require('../images/loading.gif')}/></div>
             : <div className="search-end">No results</div>
           }

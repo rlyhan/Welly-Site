@@ -1,7 +1,7 @@
 import React, { Component } from 'react'
 import { connect } from 'react-redux'
 
-import { getSpecificPlace, getPlacesByCategory } from '../actions/yelpInfoActions'
+import { getPopularPlaces, getSpecificPlace, getPlacesByCategory } from '../actions/yelpInfoActions'
 import { getSpecificCategories } from '../actions/yelpCategoryActions'
 import { getReviews } from '../actions/yelpReviewsActions'
 
@@ -12,7 +12,9 @@ class InfoLoaded extends Component {
   }
 
   componentDidMount() {
-    if (this.props.page === 'category') {
+    if (this.props.page == 'generalSearch') {
+      this.props.getPopularPlaces();
+    } else if (this.props.page === 'category') {
       this.props.getSpecificCategories(this.props.categoryType)
     } else if (this.props.page === 'place-page') {
       this.props.getSpecificPlace(this.props.id)
@@ -32,7 +34,7 @@ class InfoLoaded extends Component {
           : null
         }
         </>
-        : this.props.page === 'place-page' ?
+        : this.props.page === 'place-page' || this.props.page === 'generalSearch' ?
         <>
         {
           this.props.yelpInfo.yelpInfo ? this.props.children
@@ -54,4 +56,10 @@ const mapStateToProps = (state) => ({
   yelpReviews: state.yelpReviews
 })
 
-export default connect(mapStateToProps, { getSpecificPlace, getPlacesByCategory, getSpecificCategories, getReviews })(InfoLoaded)
+export default connect(mapStateToProps, {
+  getPopularPlaces,
+  getSpecificPlace,
+  getPlacesByCategory,
+  getSpecificCategories,
+  getReviews
+})(InfoLoaded)
