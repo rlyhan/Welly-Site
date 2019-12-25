@@ -8,7 +8,10 @@ import {
   CardTitle,
   CardImg,
   CardText,
-  NavLink
+  NavLink,
+  Pagination,
+  PaginationItem,
+  PaginationLink
 } from 'reactstrap';
 import { connect } from 'react-redux'
 
@@ -16,6 +19,42 @@ class Profile extends Component {
 
   constructor() {
     super()
+    this.state = {
+      currentPage: 1,
+      backButtonDisabled: true,
+      nextButtonDisabled: false
+    }
+  }
+
+  componentDidUpdate(prevProps, prevState) {
+    if (this.state.currentPage !== prevState.currentPage) {
+      // Disable back button if current page = 1
+      if (this.state.currentPage == 1) {
+        this.setState({ backButtonDisabled: true })
+      } else {
+        this.setState({ backButtonDisabled: false })
+      }
+    }
+  }
+
+  changePageBack = e => {
+    this.setState({
+      currentPage: this.state.currentPage - 1,
+      nextButtonDisabled: false,
+      backButtonDisabled: true
+    })
+  }
+
+  changePageNext = e => {
+    this.setState({
+      currentPage: this.state.currentPage + 1,
+      backButtonDisabled: false,
+      nextButtonDisabled: true
+    })
+  }
+
+  getStartIndex() {
+    return (this.state.currentPage - 1) * 10
   }
 
   render() {
@@ -50,11 +89,19 @@ class Profile extends Component {
                     <ul style={{paddingLeft: "0"}}>
                     {
                       this.props.auth.user.favouritePlaces ?
-                      this.props.auth.user.favouritePlaces.map((place, index) => {
+                      this.props.auth.user.favouritePlaces.slice(this.getStartIndex(), this.getStartIndex()+9).map((place, index) => {
                         return <NavLink key={index} href={`/places/${place.yelpId}`} style={{paddingLeft: '0'}}>{(place.name).toUpperCase()}</NavLink>
                       }) : <div className="search-end"><img className="loading-animation" src={require('../images/loading.gif')}/></div>
                     }
                     </ul>
+                  <Pagination>
+                    <PaginationItem>
+                      <PaginationLink onClick={this.changePageBack} disabled={this.state.backButtonDisabled} previous />
+                    </PaginationItem>
+                    <PaginationItem>
+                      <PaginationLink onClick={this.changePageNext} disabled={this.state.nextButtonDisabled} next />
+                    </PaginationItem>
+                  </Pagination>
                 </CardBody>
               </Card>
             </Col>

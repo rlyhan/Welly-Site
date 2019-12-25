@@ -13,7 +13,7 @@ import {
   Input
 } from 'reactstrap';
 
-import { register } from '../../actions/authActions'
+import { register, clearAuthError } from '../../actions/authActions'
 
 class RegisterModal extends Component {
 
@@ -25,15 +25,25 @@ class RegisterModal extends Component {
       username: '',
       password: '',
       confirmPassword: '',
-      msg: null
+      existingUserWarningShowing: false,
+      passwordWarningShowing: false,
+      registerButtonClicked: false
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.state.modal) {
       if (this.props.auth.authenticated) {
+        this.setState({ registerButtonClicked: false })
         this.toggle();
       }
+    }
+
+    if (this.props.auth.error && this.props.auth.error !== prevProps.auth.error) {
+      this.setState({
+        registerButtonClicked: false,
+        existingUserWarningShowing: true
+      })
     }
   }
 
@@ -50,10 +60,15 @@ class RegisterModal extends Component {
   }
 
   createAccount = () => {
-    console.log(this.state)
+    this.props.clearAuthError()
+    this.setState({
+      registerButtonClicked: true,
+      existingUserWarningShowing: false
+    })
     const { email, username, password, confirmPassword } = this.state;
-    if (password != confirmPassword) {
-      console.log("Wrong password")
+    console.log(this.state)
+    if (password !== confirmPassword) {
+      this.setState({ passwordWarningShowing: true })
     } else {
       var user = { email, username, password }
       this.props.register(user)
@@ -76,6 +91,9 @@ class RegisterModal extends Component {
                 <Label for="username-field">Username</Label>
                 <Input type="text" name="username" id="username-field" onChange={this.onChange} />
               </FormGroup>
+              {
+                this.state.existingUserWarningShowing && <p className="text-danger">This username and/or email is already in use.</p>
+              }
               <FormGroup>
                 <Label for="password-field">Password</Label>
                 <Input type="password" name="password" id="password-field" onChange={this.onChange} />
@@ -84,10 +102,11 @@ class RegisterModal extends Component {
                 <Label for="confirm-password-field">Confirm Password</Label>
                 <Input type="password" name="confirmPassword" id="confirm-password-field" onChange={this.onChange} />
               </FormGroup>
+              { this.state.passwordWarningShowing && <p class="text-danger">Passwords must match.</p> }
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.createAccount}>Create Account</Button>{' '}
+            <Button color="primary" onClick={this.createAccount} disabled={this.state.registerButtonClicked}>Create Account</Button>{' '}
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>
@@ -100,4 +119,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps, { register })(RegisterModal)
+export default connect(mapStateToProps, { register, clearAuthError })(RegisterModal)

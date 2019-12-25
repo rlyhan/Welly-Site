@@ -10,11 +10,10 @@ import {
   Form,
   FormGroup,
   Label,
-  Input,
-  FormText
+  Input
 } from 'reactstrap';
 
-import { login } from '../../actions/authActions'
+import { login, clearAuthError } from '../../actions/authActions'
 
 class LoginModal extends Component {
 
@@ -24,15 +23,20 @@ class LoginModal extends Component {
       modal: false,
       loginName: '',
       password: '',
-      msg: null
+      warningShowing: false
     }
   }
 
-  componentDidUpdate() {
+  componentDidUpdate(prevProps) {
     if (this.state.modal) {
       if (this.props.auth.authenticated) {
         this.toggle();
       }
+    }
+
+    if (this.props.auth.error && this.props.auth.error !== prevProps.auth.error) {
+      console.log(this.props.auth.error, prevProps.auth.error)
+      this.setState({ warningShowing: true })
     }
   }
 
@@ -49,6 +53,7 @@ class LoginModal extends Component {
   }
 
   loginAccount = () => {
+    this.props.clearAuthError()
     const { loginName, password } = this.state
     this.props.login({loginName, password})
   }
@@ -69,6 +74,7 @@ class LoginModal extends Component {
                 <Label for="password-field">Password</Label>
                 <Input type="password" name="password" id="password-field" onChange={this.onChange} />
               </FormGroup>
+              { this.state.warningShowing && <p className="text-danger">Login failed.</p> }
             </Form>
           </ModalBody>
           <ModalFooter>
@@ -85,4 +91,4 @@ const mapStateToProps = (state) => ({
   auth: state.auth
 })
 
-export default connect(mapStateToProps, { login })(LoginModal)
+export default connect(mapStateToProps, { login, clearAuthError })(LoginModal)

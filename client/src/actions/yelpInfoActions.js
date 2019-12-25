@@ -1,9 +1,9 @@
 import axios from 'axios';
 import { INFO_LOADING, GET_PLACES, GET_SPECIFIC_PLACE, LOADING_ERROR } from './types';
 
-export const getPopularPlaces = () => dispatch => {
+export const getPopularPlaces = (page) => dispatch => {
   dispatch(setInfoLoading());
-  axios.get('/api/yelp/popular')
+  axios.get(`/api/yelp/popular/page/${page}`)
   .then(res =>
     dispatch({
       type: GET_PLACES,
@@ -15,9 +15,9 @@ export const getPopularPlaces = () => dispatch => {
   )
 };
 
-export const searchPlaces = (query) => dispatch => {
+export const searchPlaces = (query, page) => dispatch => {
   dispatch(setInfoLoading());
-  axios.get(`/api/yelp/search/${query}`)
+  axios.get(`/api/yelp/search/${query}/page/${page}`)
   .then(res =>
     dispatch({
       type: GET_PLACES,

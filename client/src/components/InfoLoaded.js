@@ -7,14 +7,8 @@ import { getReviews } from '../actions/yelpReviewsActions'
 
 class InfoLoaded extends Component {
 
-  constructor(props) {
-    super(props)
-  }
-
   componentDidMount() {
-    if (this.props.page == 'generalSearch') {
-      this.props.getPopularPlaces();
-    } else if (this.props.page === 'category') {
+    if (this.props.page === 'category') {
       this.props.getSpecificCategories(this.props.categoryType)
     } else if (this.props.page === 'place-page') {
       this.props.getSpecificPlace(this.props.id)
@@ -30,19 +24,25 @@ class InfoLoaded extends Component {
         <>
         {
           this.props.yelpCategories.specificCategories ? this.props.children
-          : this.props.yelpCategories.loading ? <div className="search-end"><img className="loading-animation" src={require('../images/loading.gif')}/></div>
+          : this.props.yelpCategories.loading ?
+            <div className="search-end">
+              <img className="loading-animation" src={require('../images/loading.gif')} alt="loading" />
+            </div>
           : null
         }
         </>
-        : this.props.page === 'place-page' || this.props.page === 'generalSearch' ?
+        : this.props.page === 'place-page' ?
         <>
         {
-          this.props.yelpInfo.yelpInfo ? this.props.children
-          : this.props.yelpInfo.loading ? <div className="search-end"><img className="loading-animation" src={require('../images/loading.gif')}/></div>
-          : null
+          this.props.yelpInfo.yelpInfo && this.props.children
         }
         </>
-        : null
+        : this.props.page === 'generalSearch' ?
+        <>
+        {
+          this.props.children
+        }
+        </> : null
       }
       </>
     )

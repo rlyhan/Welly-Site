@@ -2,16 +2,18 @@ const express = require('express');
 const axios = require('axios');
 const router = express.Router();
 
-// Get popular places
+// Get popular places by page offset
 
-router.get('/popular', (req, res) => {
+router.get('/popular/page/:page', (req, res) => {
   return axios.get('https://api.yelp.com/v3/businesses/search', {
     headers: {
       'Authorization': `Bearer ${process.env.REACT_APP_YELP_KEY}`
     },
     params: {
       latitude: -41.28664,
-      longitude: 174.77557
+      longitude: 174.77557,
+      offset: ((req.params.page - 1) * 10),
+      limit: 11
     }
   }).then(data => {
     res.json(data.data);
@@ -23,7 +25,7 @@ router.get('/popular', (req, res) => {
 
 // Get places by search term
 
-router.get('/search/:term', (req, res) => {
+router.get('/search/:term/page/:page', (req, res) => {
   return axios.get('https://api.yelp.com/v3/businesses/search', {
     headers: {
       'Authorization': `Bearer ${process.env.REACT_APP_YELP_KEY}`
@@ -31,7 +33,9 @@ router.get('/search/:term', (req, res) => {
     params: {
       latitude: -41.28664,
       longitude: 174.77557,
-      term: req.params.term
+      term: req.params.term,
+      offset: ((req.params.page - 1) * 10),
+      limit: 11
     }
   }).then(data => {
     res.json(data.data);

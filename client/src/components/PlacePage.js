@@ -17,7 +17,6 @@ import {
   UncontrolledCarousel
 } from 'reactstrap'
 import { connect } from 'react-redux'
-import PropTypes from 'prop-types'
 
 import { getSpecificPlace } from '../actions/yelpInfoActions'
 import { getReviews } from '../actions/yelpReviewsActions'
@@ -27,7 +26,6 @@ class PlacePage extends Component {
 
   constructor(props) {
     super(props)
-    console.log(props)
     this.state = {
       activeTab: "1",
       addButtonDisabled: false,
@@ -44,17 +42,14 @@ class PlacePage extends Component {
   }
 
   addToFavourites = () => {
-
     this.setState({
       addButtonDisabled: true,
       removeButtonDisabled: false
     })
-
     const placeInfo = {
       name: this.props.yelpInfo.yelpInfo.name,
       yelpId: this.props.yelpInfo.yelpInfo.id
     }
-
     this.props.addToFavourites(placeInfo, this.props.auth.user._id)
   }
 
@@ -130,7 +125,7 @@ class PlacePage extends Component {
                     </Row>
                     <Row className="favourite-button">
                     {
-                      this.props.auth.authenticated && this.props.auth.user.favouritePlaces ?
+                      this.props.auth.authenticated && this.props.auth.user.favouritePlaces &&
                       <>
                       {
                         this.props.auth.user.favouritePlaces.find(place => {
@@ -141,7 +136,6 @@ class PlacePage extends Component {
                         <Button className="my-2" color="success" onClick={this.addToFavourites} disabled={this.state.addButtonDisabled}>ADD TO FAVOURITES</Button>
                       }
                       </>
-                      : null
                     }
                     </Row>
                     <Row className="desc">
@@ -179,7 +173,7 @@ class PlacePage extends Component {
             }
           </TabPane>
           <TabPane tabId="3" className="reviews">
-            <Container className="py-5">
+            <Container className="py-5" fluid>
               <ul>
               {
                 this.props.yelpReviews.yelpReviews ?

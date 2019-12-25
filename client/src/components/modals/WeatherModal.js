@@ -4,17 +4,14 @@ import {
   Modal,
   ModalHeader,
   ModalBody,
-  Form,
-  FormGroup,
-  Label,
-  Input
+  Row,
+  Col
 } from 'reactstrap';
 
 class WeatherModal extends Component {
 
   state = {
-    modal: false,
-    name: ''
+    modal: false
   }
 
   toggle = () => {
@@ -23,42 +20,40 @@ class WeatherModal extends Component {
     });
   }
 
-  onChange = (e) => {
-    this.setState({
-      [e.target.name]: e.target.value
-    });
-  }
-
-
   render() {
-    return(
-      <div>
+    return (
+      <>
+        <div className="weather-panel bg-transparent border-0 text-center" onClick={this.toggle}>
+          <img className="weather-icon" src={require(`../../images/weather-icons/${this.props.weather.weatherIcon}.png`)} />
+          <div className="weather-info text-white text-left">
+            <h2>{this.props.weather.airvisualInfo.current.weather.tp}°C</h2>
+          </div>
+        </div>
         <Modal
+          className="weather-modal"
           isOpen={this.state.modal}
           toggle={this.toggle}
         >
-          <ModalHeader toggle={this.toggle}>Add to Shopping List</ModalHeader>
-          <ModalBody>
-            <Form onSubmit={this.onSubmit}>
-              <FormGroup>
-                <Label for="item">Item</Label>
-                <Input
-                  type="text"
-                  name="name"
-                  id="item"
-                  placeholder="Add shopping item"
-                  onChange={this.onChange}
-                />
-                <Button
-                  color="dark"
-                  style={{marginTop: '2rem'}}
-                  block
-                >Add Item</Button>
-              </FormGroup>
-            </Form>
+          <ModalHeader toggle={this.toggle}>Weather</ModalHeader>
+          <ModalBody className="weather-modal-content">
+            <Row>
+              <Col className="text-right">
+                <Row>
+                  <img className="weather-icon" src={require(`../../images/weather-icons/${this.props.weather.weatherIcon}.png`)} />
+                </Row>
+                <Row>
+                  <h2>{this.props.weather.airvisualInfo.current.weather.tp}°C</h2>
+                </Row>
+              </Col>
+              <Col>
+                <h6>Wind: {this.props.weather.airvisualInfo.current.weather.ws}km</h6>
+                <h6>Humidity: {this.props.weather.airvisualInfo.current.weather.hu}%</h6>
+                <h6>Pressure: {this.props.weather.airvisualInfo.current.weather.pr}hPa</h6>
+              </Col>
+            </Row>
           </ModalBody>
         </Modal>
-      </div>
+      </>
     );
   }
 }

@@ -39,7 +39,8 @@ export const loadUser = () => (dispatch, getState) => {
       }))
       .catch(err => {
         dispatch({
-          type: AUTH_ERROR
+          type: AUTH_ERROR,
+          payload: err
         })
       })
 
@@ -66,7 +67,8 @@ export const register = ({ username, email, password }) => dispatch => {
     }))
     .catch(err => {
       dispatch({
-        type: REGISTER_FAIL
+        type: REGISTER_FAIL,
+        payload: err
       })
     })
 
@@ -90,7 +92,8 @@ export const login = ({ loginName, password }) => dispatch => {
     }))
     .catch(err => {
       dispatch({
-        type: LOGIN_FAIL
+        type: LOGIN_FAIL,
+        payload: err
       })
     })
 
@@ -140,4 +143,12 @@ export const removeFromFavourites = (yelpId, userId) => dispatch => {
         payload: res.data
       }))
 
+}
+
+// Clear auth error
+export const clearAuthError = () => dispatch => {
+  dispatch({
+    type: AUTH_ERROR,
+    payload: null
+  })
 }
