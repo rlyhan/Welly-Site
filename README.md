@@ -9,4 +9,8 @@ The current version of the site allows you to:
 
 # Technologies
 Front end: React, Redux, styled with Bootstrap\
-Back end: Node.js, Express, Mongoose, MongoDB
+Back end: Node.js, Express, Mongoose, MongoDB\
+APIs: Yelp Fusion (business information), AirVisual (weather)
+
+# Credits
+Icons created by Freepik at www.flaticon.com
