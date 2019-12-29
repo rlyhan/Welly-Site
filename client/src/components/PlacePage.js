@@ -88,7 +88,7 @@ class PlacePage extends Component {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1" className="details">
-            <Container>
+            <Container className="py-4">
               <Row>
                 <Col className="col-12 col-md-4 my-auto px-4" style={{padding: "none"}}>
                   {

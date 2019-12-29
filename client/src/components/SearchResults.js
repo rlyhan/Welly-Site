@@ -52,7 +52,7 @@ const SearchResults = (props) => {
     )
   }
   return (
-    <div className="search-end">No results</div>
+    <div className="search-end mb-5">No results</div>
   )
 }
 

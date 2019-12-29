@@ -68,13 +68,13 @@ class GeneralSearch extends Component {
     }
   }
 
-  updateQuery = (e) => {
+  updateQuery = e => {
     this.setState({
       query: e.target.value
     })
   }
 
-  searchQuery = (e) => {
+  searchQuery = () => {
     if (this.state.query == '') {
       this.setState({ currentPage: 1 }, () => {
         this.props.getPopularPlaces(this.state.currentPage)
@@ -85,6 +85,12 @@ class GeneralSearch extends Component {
       }, () => {
         this.props.searchPlaces(this.state.searchedQuery, this.state.currentPage)
       })
+    }
+  }
+
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.searchQuery()
     }
   }
 
@@ -114,8 +120,15 @@ class GeneralSearch extends Component {
           <Row className="mb-5">
             <Container className="search">
               <div className="search-bar">
-                <input type="text" onChange={this.updateQuery}></input>
-                <a onClick={this.searchQuery}><i className="fa fa-search"></i></a>
+                <input
+                  type="text"
+                  onChange={this.updateQuery}
+                  onKeyPress={this.handleKeyPress}
+                >
+                </input>
+                <a onClick={this.searchQuery}>
+                  <i className="fa fa-search"></i>
+                </a>
               </div>
             </Container>
           </Row>
@@ -124,7 +137,7 @@ class GeneralSearch extends Component {
           this.state.yelpInfo ?
           <SearchResults results={this.state.yelpInfo} />
           : this.props.yelpInfo.loading ? <div className="search-end pb-5"><img className="loading-animation" src={require('../images/loading.gif')}/></div>
-          : <div className="search-end">No results</div>
+          : null
         }
         <Row className="justify-content-center">
           <Pagination>

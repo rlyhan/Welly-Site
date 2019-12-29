@@ -93,6 +93,10 @@
   text-align: center;
 }
 
+.weather-description {
+  text-align: center;
+}
+
 /* Navigation */
 
 .home-links {
@@ -343,7 +347,7 @@
 
 /* Pagination */
 
-.pagination {
+.category .pagination {
   margin-right: 12px;
 }
 
