@@ -5,6 +5,7 @@ require('dotenv').config()
 
 const auth = require('./routes/api/auth')
 const yelp = require('./routes/api/yelp')
+const airvisual = require('./routes/api/airvisual')
 
 // Bodyparser Middleware
 app.use(express.json())
@@ -22,6 +23,7 @@ mongoose
 // Use routes
 app.use('/api/auth', auth)
 app.use('/api/yelp/', yelp)
+app.use('/api/airvisual/', airvisual)
 
 // Serve static assets if in production
 if (process.env.NODE_ENV === 'production') {

@@ -1,9 +1,10 @@
-import { WEATHER_LOADING, GET_CURRENT_WEATHER } from '../actions/types';
+import { WEATHER_LOADING, GET_CURRENT_WEATHER, LOADING_ERROR } from '../actions/types';
 
 const initialState = {
   airvisualInfo: [],
   weatherIcon: "",
-  loading: true
+  loading: true,
+  error: false
 }
 
 // Try find file
@@ -37,7 +38,12 @@ export default function(state = initialState, action) {
       }
     case WEATHER_LOADING:
       return {
-        loading: true
+        loading: true,
+        error: false
+      }
+    case LOADING_ERROR:
+      return {
+        error: true
       }
     default:
       return state;

@@ -10,7 +10,8 @@ const initialState = {
   allCategories: [],
   specificCategories: [],
   allCategoriesLoading: true,
-  specificCategoriesLoading: true
+  specificCategoriesLoading: true,
+  error: false
 }
 
 export default function(state = initialState, action) {
@@ -27,11 +28,17 @@ export default function(state = initialState, action) {
       }
     case ALL_CATEGORIES_LOADING:
       return {
-        allCategoriesLoading: true
+        allCategoriesLoading: true,
+        error: false
       }
     case SPECIFIC_CATEGORIES_LOADING:
       return {
-        specificCategoriesLoading: true
+        specificCategoriesLoading: true,
+        error: false
+      }
+    case LOADING_ERROR:
+      return {
+        error: true
       }
     default:
       return state;

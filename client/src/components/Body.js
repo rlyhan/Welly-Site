@@ -20,7 +20,9 @@ const Body = () => {
             <Route exact path="/profile" render={ () =>
               localStorage.getItem('token') != null ? <Profile /> : <Redirect to={{ pathname: '/' }} /> } />
             <Route exact path="/search" render={ () =>
-              <GeneralSearch />
+              <InfoLoaded page="search">
+                <GeneralSearch />
+              </InfoLoaded>
             } />
             <Route exact path="/shops" render={ () =>
               <InfoLoaded page="category" categoryType="shopping">

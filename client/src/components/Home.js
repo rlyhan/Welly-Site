@@ -33,7 +33,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.getCurrentWeather();
-    this.props.getPopularPlaces(1);
+    // this.props.getPopularPlaces(1);
     this.props.hideNavbar();
   }
 
@@ -68,9 +68,6 @@ class Home extends Component {
 
   render() {
 
-    // var { airvisualInfo } = this.props.airvisualInfo;
-    // var { yelpInfo } = this.props.yelpInfo;
-
     return (
       <div className="home">
         <Jumbotron fluid className="home-jumbotron mb-0">
@@ -84,8 +81,10 @@ class Home extends Component {
             <Row className="justify-content-center">
               {
                 this.props.airvisualInfo.loading ?
-                <img className="loading-animation" src={require('../images/loading.gif')}/> :
-                <WeatherModal weather={this.props.airvisualInfo} />
+                <img className="loading-animation" src={require('../images/loading.gif')}/>
+                : this.props.airvisualInfo.error ?
+                <br></br>
+                : <WeatherModal weather={this.props.airvisualInfo} />
               }
             </Row>
             <Row className="home-links text-center my-2">

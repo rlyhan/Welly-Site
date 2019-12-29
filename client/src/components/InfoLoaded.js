@@ -14,6 +14,8 @@ class InfoLoaded extends Component {
     } else if (this.props.page === 'place-page') {
       this.props.getSpecificPlace(this.props.id)
       this.props.getReviews(this.props.id)
+    } else if (this.props.page === 'search') {
+      this.props.getPopularPlaces(1)
     }
   }
 
@@ -41,7 +43,7 @@ class InfoLoaded extends Component {
               : null
             }
             </>
-            : this.props.page === 'place-page' ?
+            : this.props.page === 'place-page' || this.props.page === 'search' ?
             <>
             {
               this.props.yelpInfo.yelpInfo && this.props.children

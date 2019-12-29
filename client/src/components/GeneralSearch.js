@@ -16,7 +16,7 @@ class GeneralSearch extends Component {
 
   constructor(props) {
     super(props)
-    props.getPopularPlaces(1);
+    // props.getPopularPlaces(1);
     this.state = {
       yelpInfo: [],
       query: '',
