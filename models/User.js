@@ -24,13 +24,10 @@ var UserSchema = new mongoose.Schema({
   },
   favouritePlaces: [{
     name: {
-      type: String,
-      required: true
+      type: String
     },
     yelpId: {
-      type: String,
-      required: true,
-      unique: true
+      type: String
     }
   }]
 });

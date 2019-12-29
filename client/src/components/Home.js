@@ -7,19 +7,15 @@ import {
   Card,
   CardImg,
   CardBody,
-  CardTitle,
-  FormGroup,
-  Label,
-  Input
+  CardTitle
 } from 'reactstrap';
-import axios from 'axios';
 import { connect } from 'react-redux';
-import PropTypes from 'prop-types';
 
 import { getCurrentWeather } from '../actions/airvisualInfoActions';
 import { getPopularPlaces } from '../actions/yelpInfoActions';
 import { displayNavbar, hideNavbar } from '../actions/otherActions';
 
+import WeatherModal from './modals/WeatherModal'
 import GeneralSearch from './GeneralSearch';
 
 const ref = React.createRef();
@@ -30,14 +26,14 @@ class Home extends Component {
     super();
     this.state = {
       navbarShowing: false,
-      isOpen: false //modal
+      isOpen: false
     };
     window.addEventListener('scroll', this.changeNavbarDisplay);
   }
 
   componentDidMount() {
     this.props.getCurrentWeather();
-    this.props.getPopularPlaces();
+    this.props.getPopularPlaces(1);
     this.props.hideNavbar();
   }
 
@@ -85,21 +81,12 @@ class Home extends Component {
             <h1 className="logo text-center" style={{color: 'white', fontSize: '90px', marginTop: '40px'}}>WELLY.</h1>
           </Container>
           <Container>
-            <Row>
-              <div className="weather-panel bg-transparent border-0 text-center">
+            <Row className="justify-content-center">
               {
                 this.props.airvisualInfo.loading ?
-                <img className="loading-animation" src={require('../images/loading.gif')}/>
-                :
-                <>
-                  <img className="weather-icon" src={require(`../images/weather-icons/${this.props.airvisualInfo.weatherIcon}.png`)} />
-                  <div className="weather-info text-white text-left p-0">
-                    <h2>{this.props.airvisualInfo.airvisualInfo.current.weather.tp}°C</h2>
-                    <h5>Wind: {this.props.airvisualInfo.airvisualInfo.current.weather.ws}km</h5>
-                  </div>
-                </>
+                <img className="loading-animation" src={require('../images/loading.gif')}/> :
+                <WeatherModal weather={this.props.airvisualInfo} />
               }
-              </div>
             </Row>
             <Row className="home-links text-center my-2">
               <Col className="col-12 col-sm-4">
@@ -153,16 +140,6 @@ class Home extends Component {
       </div>
     )
   }
-}
-
-Home.propTypes = {
-  airvisualInfo: PropTypes.object.isRequired,
-  yelpInfo: PropTypes.object.isRequired,
-  other: PropTypes.object.isRequired,
-  getCurrentWeather: PropTypes.func.isRequired,
-  getPopularPlaces: PropTypes.func.isRequired,
-  displayNavbar: PropTypes.func.isRequired,
-  hideNavbar: PropTypes.func.isRequired
 }
 
 const mapStateToProps = (state) => ({

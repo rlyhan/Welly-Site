@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Container,
   Row,
@@ -10,25 +10,26 @@ import {
   Pagination,
   PaginationItem,
   PaginationLink
-} from 'reactstrap';
-import axios from 'axios';
-import { connect } from 'react-redux';
+} from 'reactstrap'
+import { connect } from 'react-redux'
 
-import { getSpecificCategories } from '../actions/yelpCategoryActions';
-import { getPlacesByCategory } from '../actions/yelpInfoActions';
-import { displayNavbar, hideNavbar } from '../actions/otherActions';
+import { getSpecificCategories } from '../actions/yelpCategoryActions'
+import { getPlacesByCategory } from '../actions/yelpInfoActions'
+import { displayNavbar, hideNavbar } from '../actions/otherActions'
+
+import SearchResults from './SearchResults'
 
 class Category extends Component {
 
   constructor(props) {
-    super(props);
-    this.props.displayNavbar();
-    this.props.getPlacesByCategory(this.props.categoryType, 1)
+    super(props)
+    props.displayNavbar()
+    props.getPlacesByCategory(props.categoryType, 1)
     this.state = {
       yelpInfo: [],
-      yelpCategories: this.props.yelpCategories.specificCategories,
-      parentCategories: [],
+      yelpCategories: props.yelpCategories.specificCategories,
       categories: [],
+      parentCategories: [],
       filters: [],
       sortMethod: "",
       currentPage: 1,
@@ -41,7 +42,7 @@ class Category extends Component {
     this.setState({
       yelpInfo: this.props.yelpInfo.yelpInfo
     }, () => {
-      if (this.state.yelpInfo.length > 10) {
+      if (this.state.yelpInfo && this.state.yelpInfo.length > 10) {
         this.setState({
           nextButtonDisabled: false
         })
@@ -49,13 +50,31 @@ class Category extends Component {
     })
   }
 
-  componentDidUpdate(prevProps) {
+  componentDidUpdate(prevProps, prevState) {
     if (this.props.yelpInfo.yelpInfo !== prevProps.yelpInfo.yelpInfo) {
       this.setState({ yelpInfo: this.props.yelpInfo.yelpInfo }, () => {
+        // Disable next button to disabled if number of results < 11
         if (this.state.yelpInfo && this.state.yelpInfo.length < 11) {
           this.setState({ nextButtonDisabled: true })
+        } else {
+          this.setState({ nextButtonDisabled: false })
         }
       })
+    }
+    if (this.state.currentPage !== prevState.currentPage) {
+      // Disable back button if current page = 1
+      if (this.state.currentPage == 1) {
+        this.setState({ backButtonDisabled: true })
+      } else {
+        this.setState({ backButtonDisabled: false })
+      }
+      // If there are filters, search by filters + current page
+      // Else, just search by page category + current page
+      if (this.state.filters.length > 0) {
+        this.props.getPlacesByCategory(this.state.filters.join(","), this.state.currentPage)
+      } else {
+        this.props.getPlacesByCategory(this.props.categoryType, this.state.currentPage)
+      }
     }
   }
 
@@ -68,35 +87,33 @@ class Category extends Component {
     }
   }
 
-  sortResults = (results, sortMethod) => {
+  getSortedResults = (results, sortMethod) => {
     if (sortMethod == "") {
-      return results.slice(0, 10)
+      return results
     } else {
-      return results.slice(0, 10).sort(function(a, b) {
+      return results.sort(function(a, b) {
         if (a[sortMethod] < b[sortMethod]) {
-          return 1;
+          return 1
         } else if (a[sortMethod] > b[sortMethod]) {
-          return -1;
+          return -1
         }
-        return 0;
+        return 0
       })
     }
   }
 
   onFilterSelect = e => {
-    let selectedFilter = e.target;
-    let newFilters = this.state.filters;
+    let selectedFilter = e.target
+    let newFilters = this.state.filters
     if (selectedFilter.checked) {
-      newFilters.push(selectedFilter.value);
-      this.setState({
-        filters: newFilters
-      });
+      newFilters.push(selectedFilter.value)
+      this.setState({ filters: newFilters })
     } else {
-      let removeIndex = this.state.filters.indexOf(selectedFilter.value);
-      newFilters.splice(removeIndex, 1);
+      let removeIndex = this.state.filters.indexOf(selectedFilter.value)
+      newFilters.splice(removeIndex, 1)
       this.setState({
         filters: newFilters
-      });
+      })
     }
   }
 
@@ -104,7 +121,7 @@ class Category extends Component {
     if (this.state.filters.length > 0) {
       this.props.getPlacesByCategory(this.state.filters.join(","), 1)
     } else {
-      this.props.getPlacesByCategory(this.props.categoryType, 1);
+      this.props.getPlacesByCategory(this.props.categoryType, 1)
     }
     document.getElementById('sort-menu').value = ""
     if (this.props.yelpInfo.yelpInfo.length > 10) {
@@ -117,63 +134,24 @@ class Category extends Component {
   }
 
   changePageBack = e => {
-    console.log('Page before clicking:', this.state.currentPage)
     this.setState({
       currentPage: this.state.currentPage - 1,
-      nextButtonDisabled: false
-    }, () => {
-      console.log("Current page:", this.state.currentPage)
-      if (this.state.filters.length > 0) {
-        this.props.getPlacesByCategory(this.state.filters.join(","), this.state.currentPage)
-      } else {
-        this.props.getPlacesByCategory(this.props.categoryType, this.state.currentPage);
-      }
-      // Disable back button if current page = 1
-      if (this.state.currentPage == 1) {
-        this.setState({
-          backButtonDisabled: true
-        })
-      }
+      nextButtonDisabled: false,
+      backButtonDisabled: true
     })
   }
 
   changePageNext = e => {
-    console.log('Page before clicking:', this.state.currentPage)
     this.setState({
       currentPage: this.state.currentPage + 1,
-      backButtonDisabled: false
-    }, () => {
-      console.log("Current page:", this.state.currentPage)
-      if (this.state.filters.length > 0) {
-        this.props.getPlacesByCategory(this.state.filters.join(","), this.state.currentPage)
-      } else {
-        this.props.getPlacesByCategory(this.props.categoryType, this.state.currentPage)
-      }
-      // Disable next button to disabled if number of results < 11
-      if (this.props.yelpInfo.yelpInfo.length > 10) {
-        this.setState({
-          nextButtonDisabled: false
-        })
-      } else {
-        this.setState({
-          nextButtonDisabled: true
-        })
-      }
+      backButtonDisabled: false,
+      nextButtonDisabled: true
     })
   }
 
-  getStars = (number) => {
-    let stars = '★'.repeat(number)
-    if (number % 1 == 0.5) {
-      stars += '★'
-    }
-    return stars
-  }
-
   render() {
-
     return (
-      <Container className="category py-5">
+      <Container className="category pt-5">
         <Row className="justify-content-center">
           <Col className="col-12 col-md-3 mb-5">
             <FormGroup>
@@ -214,34 +192,7 @@ class Category extends Component {
           <Col className="col-12 col-md-9">
           {
             this.state.yelpInfo ?
-            <Container className="search-results">
-              {
-                this.sortResults(this.state.yelpInfo, this.state.sortMethod).map((place, index) => {
-                  return (
-                    <Row key={index}>
-                        {
-                          place.image_url
-                          ? <Col className="result-image col-12 col-sm-4 col-md-4 col-lg-3"><img src={place.image_url} /></Col>
-                          : <Col className="result-image placeholder col-12 col-sm-4 col-md-4 col-lg-3"><img src={require(`../images/home-icons/${this.props.categoryName}.png`)} /></Col>
-                        }
-                        <Col className="result-info col-12 col-sm-8 col-md-8 col-lg-9">
-                          <a href={`/places/${place.id}`}><p className="h5">{place.name.toUpperCase()}</p></a>
-                          <p>
-                            {
-                              place.categories.map(category => {
-                                return (category.title)
-                              }).join(", ")
-                            }
-                          </p>
-                          <p>{this.getStars(place.rating)} ({place.review_count} reviews)</p>
-                          <p><i>{place.location.display_address.join(", ")}
-                          </i></p>
-                        </Col>
-                    </Row>
-                  )
-                })
-              }
-            </Container>
+            <SearchResults results={this.getSortedResults(this.state.yelpInfo, this.state.sortMethod)} category={this.props.categoryName} />
             : this.props.yelpInfo.loading ? <div className="search-end"><img className="loading-animation" src={require('../images/loading.gif')}/></div>
             : <div className="search-end">No results</div>
           }
@@ -266,6 +217,6 @@ const mapStateToProps = (state) => ({
   yelpCategories: state.yelpCategories,
   yelpInfo: state.yelpInfo,
   other: state.other
-});
+})
 
-export default connect(mapStateToProps, { getSpecificCategories, getPlacesByCategory, displayNavbar, hideNavbar })(Category);
+export default connect(mapStateToProps, { getSpecificCategories, getPlacesByCategory, displayNavbar, hideNavbar })(Category)

@@ -1,7 +1,8 @@
 /*** SITE ***/
 
 .page-content {
-  min-height: 100vh;
+  min-height: calc(100vh - 50px);
+  padding-bottom: 24px;
 }
 
 /*** NAVIGATION MENU ***/
@@ -68,12 +69,17 @@
   margin: 10px auto;
 }
 
+.weather-panel:hover {
+  cursor: pointer;
+}
+
 .weather-icon {
   width: 70px;
   float: left;
 }
 
 .weather-info {
+  margin-top: 10px;
   float: right;
 }
 
@@ -84,6 +90,10 @@
 .weather-info h5 {
   font-size: 10px;
   margin-bottom: 0;
+  text-align: center;
+}
+
+.weather-description {
   text-align: center;
 }
 
@@ -337,7 +347,7 @@
 
 /* Pagination */
 
-.pagination {
+.category .pagination {
   margin-right: 12px;
 }
 
@@ -352,7 +362,7 @@
 
 .place-page {
   color: white;
-  margin-top: 120px;
+  padding-top: 124px;
 }
 
 .place-page .nav-item {
@@ -434,7 +444,7 @@
 /* Reviews */
 
 .place-page .reviews ul {
-  padding: 0;
+  padding: 0 100px 0 100px;
   text-align: left;
   list-style-type: none;
 }
@@ -512,6 +522,10 @@
     border-top-right-radius: 0;
   }
 
+  .place-page .reviews ul {
+    padding: 0;
+  }
+
 }
 
 /*** PROFILE ***/
@@ -546,9 +560,13 @@
 
 /*** FOOTER ***/
 
-.footer {
+footer {
+  font-size: 13px;
   color: white;
+  position: relative;
   bottom: 0;
+  left: 0;
+  right: 0;
   width: 100%;
   height: 50px;
   background: #323031 !important;

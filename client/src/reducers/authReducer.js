@@ -15,7 +15,8 @@ const initialState = {
   token: localStorage.getItem('token'),
   user: null,
   authenticated: false,
-  loading: false
+  loading: false,
+  error: null
 };
 
 export default function(state = initialState, action) {
@@ -30,27 +31,39 @@ export default function(state = initialState, action) {
         ...state,
         user: action.payload,
         authenticated: true,
-        loading: false
+        loading: false,
+        error: null
       };
     case REGISTER_SUCCESS:
     case LOGIN_SUCCESS:
       localStorage.setItem('token', action.payload.token);
       return {
+        ...state,
         token: action.payload.token,
         user: action.payload.user,
         authenticated: true,
-        loading: false
+        loading: false,
+        error: null
       };
     case REGISTER_FAIL:
     case LOGIN_FAIL:
-    case LOGOUT_SUCCESS:
     case AUTH_ERROR:
       localStorage.removeItem('token');
       return {
         token: null,
         user: null,
         authenticated: false,
-        loading: false
+        loading: false,
+        error: action.payload
+      };
+    case LOGOUT_SUCCESS:
+      localStorage.removeItem('token');
+      return {
+        token: null,
+        user: null,
+        authenticated: false,
+        loading: false,
+        error: null
       };
     case FAVOURITE_ADDED:
     case FAVOURITE_REMOVED:

@@ -1,66 +1,154 @@
 import React, { Component } from 'react'
-import { Container, Row, Col } from 'reactstrap'
+import {
+  Container,
+  Row,
+  Pagination,
+  PaginationItem,
+  PaginationLink
+} from 'reactstrap'
 import { connect } from 'react-redux'
 
-import { getPopularPlaces } from '../actions/yelpInfoActions'
+import { getPopularPlaces, searchPlaces } from '../actions/yelpInfoActions'
 
-import SearchBar from './SearchBar'
+import SearchResults from './SearchResults'
 
 class GeneralSearch extends Component {
 
   constructor(props) {
     super(props)
+    props.getPopularPlaces(1);
+    this.state = {
+      yelpInfo: [],
+      query: '',
+      searchedQuery: '',
+      currentPage: 1,
+      backButtonDisabled: true,
+      nextButtonDisabled: true
+    }
   }
 
   componentDidMount() {
-    this.props.getPopularPlaces();
+    this.setState({
+      yelpInfo: this.props.yelpInfo.yelpInfo
+    }, () => {
+      if (this.state.yelpInfo && this.state.yelpInfo.length > 10) {
+        this.setState({
+          nextButtonDisabled: false
+        })
+      }
+    })
   }
 
-  getStars = (number) => {
-    let stars = '★'.repeat(number)
-    if (number % 1 == 0.5) {
-      stars += '★'
+  componentDidUpdate(prevProps, prevState) {
+    if (this.props.yelpInfo.yelpInfo !== prevProps.yelpInfo.yelpInfo) {
+      this.setState({ yelpInfo: this.props.yelpInfo.yelpInfo }, () => {
+        // Disable next button to disabled if number of results < 11
+        if (this.state.yelpInfo && this.state.yelpInfo.length < 11) {
+          this.setState({ nextButtonDisabled: true })
+        } else {
+          this.setState({ nextButtonDisabled: false })
+        }
+      })
     }
-    return stars
+    if (this.state.currentPage !== prevState.currentPage) {
+      console.log(this.state.currentPage)
+      // Disable back button if current page = 1
+      if (this.state.currentPage == 1) {
+        this.setState({ backButtonDisabled: true })
+      } else {
+        this.setState({ backButtonDisabled: false })
+      }
+      // If search query isn't empty, search by query + current page
+      // Else, search by popular places + current page
+      if (this.state.searchedQuery != '') {
+        this.props.searchPlaces(this.state.query, this.state.currentPage)
+      } else {
+        this.props.getPopularPlaces(this.state.currentPage)
+      }
+    }
+  }
+
+  updateQuery = e => {
+    this.setState({
+      query: e.target.value
+    })
+  }
+
+  searchQuery = () => {
+    if (this.state.query == '') {
+      this.setState({ currentPage: 1 }, () => {
+        this.props.getPopularPlaces(this.state.currentPage)
+      })
+    } else {
+      this.setState({
+        searchedQuery: this.state.query
+      }, () => {
+        this.props.searchPlaces(this.state.searchedQuery, this.state.currentPage)
+      })
+    }
+  }
+
+  handleKeyPress = e => {
+    if (e.key === 'Enter') {
+      this.searchQuery()
+    }
+  }
+
+  changePageBack = e => {
+    this.setState({
+      currentPage: this.state.currentPage - 1,
+      nextButtonDisabled: false,
+      backButtonDisabled: true
+    })
+  }
+
+  changePageNext = e => {
+    this.setState({
+      currentPage: this.state.currentPage + 1,
+      backButtonDisabled: false,
+      nextButtonDisabled: true
+    })
   }
 
   render() {
     return (
       <Container className="general">
-        <SearchBar />
+        <Container className="mb-5">
+          <Row className="mx-auto my-4 justify-content-center">
+            <p className="lead">Browse all places, events, services and more</p>
+          </Row>
+          <Row className="mb-5">
+            <Container className="search">
+              <div className="search-bar">
+                <input
+                  type="text"
+                  onChange={this.updateQuery}
+                  onKeyPress={this.handleKeyPress}
+                >
+                </input>
+                <a onClick={this.searchQuery}>
+                  <i className="fa fa-search"></i>
+                </a>
+              </div>
+            </Container>
+          </Row>
+        </Container>
         {
-          this.props.yelpInfo.yelpInfo && this.props.yelpInfo.yelpInfo.length > 0 ?
-          <Container className="search-results">
-            {
-              this.props.yelpInfo.yelpInfo.map((place, index) => {
-                return (
-                  <Row key={index}>
-                      {
-                        place.image_url
-                        ? <Col className="result-image col-12 col-sm-4 col-md-3"><img src={place.image_url} alt="place-image" /></Col>
-                        : <Col className="result-image placeholder col-12 col-sm-4 col-md-3"><img src={require(`../images/place-placeholder.png`)} alt="place-placeholder" /></Col>
-                      }
-                      <Col className="result-info col-12 col-sm-8 col-md-9">
-                        <a href={`/places/${place.id}`}><p className="h5">{place.name.toUpperCase()}</p></a>
-                        <p>
-                          {
-                            place.categories.map(category => {
-                              return (category.title)
-                            }).join(", ")
-                          }
-                        </p>
-                        <p>{this.getStars(place.rating)} ({place.review_count} reviews)</p>
-                        <p><i>{place.location.display_address.join(", ")}
-                        </i></p>
-                      </Col>
-                  </Row>
-                )
-              })
-            }
-          </Container>
-          : this.props.yelpInfo.loading ? <div className="search-end"><img className="loading-animation" src={require('../images/loading.gif')}/></div>
-          : <div className="search-end">No results</div>
+          this.state.yelpInfo ?
+          <SearchResults results={this.state.yelpInfo} />
+          : this.props.yelpInfo.loading ? <div className="search-end pb-5"><img className="loading-animation" src={require('../images/loading.gif')}/></div>
+          : null
         }
+        <Row className="justify-content-center">
+          <Pagination>
+            <PaginationItem>
+              <PaginationLink onClick={this.changePageBack} disabled={this.state.backButtonDisabled} previous />
+            </PaginationItem>
+            <PaginationItem>
+              <PaginationLink onClick={this.changePageNext} disabled={this.state.nextButtonDisabled} next />
+            </PaginationItem>
+          </Pagination>
+        </Row>
       </Container>
     )
   }
@@ -70,4 +158,4 @@ const mapStateToProps = (state) => ({
   yelpInfo: state.yelpInfo
 })
 
-export default connect(mapStateToProps, { getPopularPlaces })(GeneralSearch)
+export default connect(mapStateToProps, { getPopularPlaces, searchPlaces })(GeneralSearch)

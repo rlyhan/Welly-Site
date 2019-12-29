@@ -54,7 +54,7 @@ class NavMenu extends Component {
                 <NavLink href="/bars" className="px-3" style={{color: 'white', fontWeight: 600}}>BARS & NIGHTLIFE</NavLink>
               </NavItem>
               <NavItem>
-                <NavLink href="/search" className="px-3" style={{color: 'white', fontWeight: 600}}>BROWSE ALL</NavLink>
+                <NavLink href="/search" className="px-3" style={{color: 'white', fontWeight: 600}}>BROWSE</NavLink>
               </NavItem>
               {/*
               <NavItem>
