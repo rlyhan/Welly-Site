@@ -5,7 +5,7 @@ import {
   Col
 } from 'reactstrap'
 
-import './App.css'
+import '../App.css'
 
 function getStars(number) {
   let stars = '★'.repeat(number)

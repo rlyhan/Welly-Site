@@ -15,7 +15,7 @@ import {
 } from 'reactstrap';
 import { connect } from 'react-redux'
 
-import './App.css'
+import '../App.css'
 
 class Profile extends Component {
 

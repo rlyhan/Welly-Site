@@ -2,7 +2,7 @@ import React, { Component } from 'react'
 import { Container } from 'reactstrap'
 import { connect } from 'react-redux'
 
-import './App.css'
+import '../App.css'
 import { getPopularPlaces, getSpecificPlace, getPlacesByCategory } from '../actions/yelpInfoActions'
 import { getSpecificCategories } from '../actions/yelpCategoryActions'
 import { getReviews } from '../actions/yelpReviewsActions'
