@@ -45,10 +45,16 @@ class InfoLoaded extends Component {
               : null
             }
             </>
-            : this.props.page === 'place-page' || this.props.page === 'search' ?
+            : this.props.page === 'place-page' ?
             <>
             {
               this.props.yelpInfo.yelpInfo && this.props.children
+            }
+            </>
+            : this.props.page === 'search' ?
+            <>
+            {
+              this.props.children
             }
             </> : null
           }
