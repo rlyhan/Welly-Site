@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Jumbotron,
   Container,
@@ -8,33 +8,33 @@ import {
   CardImg,
   CardBody,
   CardTitle
-} from 'reactstrap';
-import { connect } from 'react-redux';
+} from 'reactstrap'
+import { connect } from 'react-redux'
 
-import { getCurrentWeather } from '../actions/airvisualInfoActions';
-import { getPopularPlaces } from '../actions/yelpInfoActions';
-import { displayNavbar, hideNavbar } from '../actions/otherActions';
+import { getCurrentWeather } from '../actions/airvisualInfoActions'
+import { getPopularPlaces } from '../actions/yelpInfoActions'
+import { displayNavbar, hideNavbar } from '../actions/otherActions'
 
 import WeatherModal from './modals/WeatherModal'
-import GeneralSearch from './GeneralSearch';
+import GeneralSearch from './GeneralSearch'
 
-const ref = React.createRef();
+const ref = React.createRef()
 
 class Home extends Component {
 
   constructor(props) {
-    super();
+    super()
     this.state = {
       navbarShowing: false,
       isOpen: false
-    };
-    window.addEventListener('scroll', this.changeNavbarDisplay);
+    }
+    window.addEventListener('scroll', this.changeNavbarDisplay)
   }
 
   componentDidMount() {
-    this.props.getCurrentWeather();
-    this.props.getPopularPlaces(1);
-    this.props.hideNavbar();
+    this.props.getCurrentWeather()
+    this.props.getPopularPlaces(1)
+    this.props.hideNavbar()
   }
 
   // Scroll to lower half of page upon click
@@ -43,7 +43,7 @@ class Home extends Component {
     ref.current.scrollIntoView({
       behavior: 'smooth',
       block: 'start'
-    });
+    })
   }
 
   // If scroll position >= 500, show navbar
@@ -53,13 +53,13 @@ class Home extends Component {
     if (window.pageYOffset >= 500 && !this.state.navbarShowing) {
       this.setState({
         navbarShowing: true
-      });
-      this.props.displayNavbar();
+      })
+      this.props.displayNavbar()
     } else if (window.pageYOffset < 500 && this.state.navbarShowing) {
       this.setState({
         navbarShowing: false
-      });
-      this.props.hideNavbar();
+      })
+      this.props.hideNavbar()
     }
   }
 
@@ -142,6 +142,6 @@ const mapStateToProps = (state) => ({
   airvisualInfo: state.airvisualInfo,
   yelpInfo: state.yelpInfo,
   other: state.other,
-});
+})
 
-export default connect(mapStateToProps, { getCurrentWeather, getPopularPlaces, displayNavbar, hideNavbar })(Home);
+export default connect(mapStateToProps, { getCurrentWeather, getPopularPlaces, displayNavbar, hideNavbar })(Home)

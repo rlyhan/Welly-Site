@@ -66,7 +66,6 @@ class RegisterModal extends Component {
       existingUserWarningShowing: false
     })
     const { email, username, password, confirmPassword } = this.state;
-    console.log(this.state)
     if (password !== confirmPassword) {
       this.setState({ passwordWarningShowing: true })
     } else {

@@ -13,6 +13,7 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 
+import './App.css'
 import { getSpecificCategories } from '../actions/yelpCategoryActions'
 import { getPlacesByCategory } from '../actions/yelpInfoActions'
 import { displayNavbar, hideNavbar } from '../actions/otherActions'
