@@ -69,7 +69,7 @@ class PlacePage extends Component {
     let { yelpInfo } = this.props.yelpInfo
 
     return (
-      <Container className="place-page">
+      <Container className="place-page mb-5">
         <Nav tabs>
           <NavItem style={{borderTopLeftRadius: "5px"}} className={this.state.activeTab == 1 ? 'place-page-active-tab' : null}>
             <NavLink onClick={() => this.setState({ activeTab: "1" })}>
@@ -89,7 +89,7 @@ class PlacePage extends Component {
         </Nav>
         <TabContent activeTab={this.state.activeTab}>
           <TabPane tabId="1" className="details">
-            <Container className="py-4">
+            <Container className="py-3">
               <Row>
                 <Col className="col-12 col-md-4 my-auto px-4" style={{padding: "none"}}>
                   {
