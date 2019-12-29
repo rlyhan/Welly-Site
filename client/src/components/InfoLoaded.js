@@ -11,6 +11,7 @@ class InfoLoaded extends Component {
   componentDidMount() {
     if (this.props.page === 'category') {
       this.props.getSpecificCategories(this.props.categoryType)
+      this.props.getPlacesByCategory(this.props.categoryType, 1)
     } else if (this.props.page === 'place-page') {
       this.props.getSpecificPlace(this.props.id)
       this.props.getReviews(this.props.id)

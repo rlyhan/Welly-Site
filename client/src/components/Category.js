@@ -24,10 +24,9 @@ class Category extends Component {
   constructor(props) {
     super(props)
     props.displayNavbar()
-    props.getPlacesByCategory(props.categoryType, 1)
     this.state = {
       yelpInfo: [],
-      yelpCategories: props.yelpCategories.specificCategories,
+      yelpCategories: [],
       categories: [],
       parentCategories: [],
       filters: [],
@@ -40,7 +39,8 @@ class Category extends Component {
 
   componentDidMount() {
     this.setState({
-      yelpInfo: this.props.yelpInfo.yelpInfo
+      yelpInfo: this.props.yelpInfo.yelpInfo,
+      yelpCategories: this.props.yelpCategories.specificCategories
     }, () => {
       if (this.state.yelpInfo && this.state.yelpInfo.length > 10) {
         this.setState({

@@ -22,8 +22,7 @@ const Body = () => {
             <Route exact path="/search" render={ () =>
               <InfoLoaded page="search">
                 <GeneralSearch />
-              </InfoLoaded>
-            } />
+              </InfoLoaded> } />
             <Route exact path="/shops" render={ () =>
               <InfoLoaded page="category" categoryType="shopping">
                 <Category categoryName="shopping" categoryType="shopping" />

@@ -33,7 +33,7 @@ class Home extends Component {
 
   componentDidMount() {
     this.props.getCurrentWeather();
-    // this.props.getPopularPlaces(1);
+    this.props.getPopularPlaces(1);
     this.props.hideNavbar();
   }
 
@@ -62,9 +62,6 @@ class Home extends Component {
       this.props.hideNavbar();
     }
   }
-
-  // when clicking weather panel, bring up modal
-
 
   render() {
 

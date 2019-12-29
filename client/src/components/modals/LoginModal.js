@@ -30,12 +30,11 @@ class LoginModal extends Component {
   componentDidUpdate(prevProps) {
     if (this.state.modal) {
       if (this.props.auth.authenticated) {
-        this.toggle();
+        this.toggle()
       }
     }
 
     if (this.props.auth.error && this.props.auth.error !== prevProps.auth.error) {
-      console.log(this.props.auth.error, prevProps.auth.error)
       this.setState({ warningShowing: true })
     }
   }
