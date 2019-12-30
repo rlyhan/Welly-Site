@@ -7,6 +7,11 @@ The current version of the site allows you to:
 - Allows you to create your own profile to save places to your favourites.
 - View weather on the home page.
 
+# Run this app locally
+1. Clone this repository
+2. Run npm install
+3. Run npm start
+
 # Technologies
 Front end: React, Redux, styled with Bootstrap\
 Back end: Node.js, Express, Mongoose, MongoDB\
