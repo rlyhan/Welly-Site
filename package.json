@@ -1,14 +1,14 @@
 {
   "name": "wellington-site",
   "version": "1.0.0",
-  "description": "A site dedicated to Wellington City, with a target audience of locals rather than tourists. Shows detailed weather info, businesses, restaurants, and events.",
+  "description": "A site dedicated to Wellington City. Shows weather info, businesses, and events.",
   "main": "index.js",
   "scripts": {
     "client-install": "npm install --prefix client",
-    "start": "node server.js",
     "server": "nodemon server.js",
     "client": "npm start --prefix client",
     "dev": "concurrently \"npm run server\" \"npm run client\"",
+    "start": "npm run dev",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
   "author": "",
