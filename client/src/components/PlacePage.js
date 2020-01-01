@@ -18,7 +18,6 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 
-import '../App.css'
 import { getSpecificPlace } from '../actions/yelpInfoActions'
 import { getReviews } from '../actions/yelpReviewsActions'
 import { addToFavourites, removeFromFavourites } from '../actions/authActions'

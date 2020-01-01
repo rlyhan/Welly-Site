@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Button,
   Modal,
@@ -11,7 +11,7 @@ import {
   FormGroup,
   Label,
   Input
-} from 'reactstrap';
+} from 'reactstrap'
 
 import { register, clearAuthError } from '../../actions/authActions'
 
@@ -35,7 +35,7 @@ class RegisterModal extends Component {
     if (this.state.modal) {
       if (this.props.auth.authenticated) {
         this.setState({ registerButtonClicked: false })
-        this.toggle();
+        this.toggle()
       }
     }
 
@@ -50,13 +50,13 @@ class RegisterModal extends Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal
-    });
+    })
   }
 
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
-    });
+    })
   }
 
   createAccount = () => {
@@ -65,7 +65,7 @@ class RegisterModal extends Component {
       registerButtonClicked: true,
       existingUserWarningShowing: false
     })
-    const { email, username, password, confirmPassword } = this.state;
+    const { email, username, password, confirmPassword } = this.state
     if (password !== confirmPassword) {
       this.setState({ passwordWarningShowing: true })
     } else {
@@ -110,7 +110,7 @@ class RegisterModal extends Component {
           </ModalFooter>
         </Modal>
       </div>
-    );
+    )
   }
 }
 

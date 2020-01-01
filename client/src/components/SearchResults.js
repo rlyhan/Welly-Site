@@ -5,8 +5,6 @@ import {
   Col
 } from 'reactstrap'
 
-import '../App.css'
-
 function getStars(number) {
   let stars = '★'.repeat(number)
   if (number % 1 == 0.5) {

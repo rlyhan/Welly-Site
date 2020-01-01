@@ -8,7 +8,6 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 
-import '../App.css'
 import { getPopularPlaces, searchPlaces } from '../actions/yelpInfoActions'
 
 import SearchResults from './SearchResults'

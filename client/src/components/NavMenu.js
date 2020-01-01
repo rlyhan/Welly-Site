@@ -8,10 +8,8 @@ import {
   NavItem,
   NavLink
 } from 'reactstrap'
-import '../App.css'
 import { connect } from 'react-redux'
 
-import '../App.css'
 import RegisterModal from './modals/RegisterModal'
 import LoginModal from './modals/LoginModal'
 import { logout } from '../actions/authActions'

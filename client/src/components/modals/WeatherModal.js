@@ -1,4 +1,4 @@
-import React, { Component } from 'react';
+import React, { Component } from 'react'
 import {
   Button,
   Modal,
@@ -6,7 +6,7 @@ import {
   ModalBody,
   Row,
   Col
-} from 'reactstrap';
+} from 'reactstrap'
 
 class WeatherModal extends Component {
 
@@ -17,7 +17,7 @@ class WeatherModal extends Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal
-    });
+    })
   }
 
   render() {
@@ -56,8 +56,8 @@ class WeatherModal extends Component {
           </ModalBody>
         </Modal>
       </>
-    );
+    )
   }
 }
 
-export default WeatherModal;
+export default WeatherModal

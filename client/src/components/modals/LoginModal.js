@@ -1,5 +1,5 @@
-import React, { Component } from 'react';
-import { connect } from 'react-redux';
+import React, { Component } from 'react'
+import { connect } from 'react-redux'
 import {
   Button,
   Modal,
@@ -11,7 +11,7 @@ import {
   FormGroup,
   Label,
   Input
-} from 'reactstrap';
+} from 'reactstrap'
 
 import { login, clearAuthError } from '../../actions/authActions'
 
@@ -42,13 +42,13 @@ class LoginModal extends Component {
   toggle = () => {
     this.setState({
       modal: !this.state.modal
-    });
+    })
   }
 
   onChange = e => {
     this.setState({
       [e.target.name]: e.target.value
-    });
+    })
   }
 
   loginAccount = () => {
@@ -82,7 +82,7 @@ class LoginModal extends Component {
           </ModalFooter>
         </Modal>
       </div>
-    );
+    )
   }
 }
 
