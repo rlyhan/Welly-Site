@@ -13,6 +13,8 @@ import {
   Input
 } from 'reactstrap'
 
+import '../App.css'
+
 import { register, clearAuthError } from '../../actions/authActions'
 
 class RegisterModal extends Component {

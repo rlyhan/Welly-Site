@@ -11,6 +11,8 @@ import {
 } from 'reactstrap'
 import { connect } from 'react-redux'
 
+import '../App.css'
+
 import { getCurrentWeather } from '../actions/airvisualInfoActions'
 import { getPopularPlaces } from '../actions/yelpInfoActions'
 import { displayNavbar, hideNavbar } from '../actions/otherActions'

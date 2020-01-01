@@ -2,6 +2,7 @@ import React, { Component } from 'react'
 
 import NavMenu from './components/NavMenu'
 import Body from './components/Body'
+import '../App.css'
 
 import { Provider } from 'react-redux'
 import store from './store'

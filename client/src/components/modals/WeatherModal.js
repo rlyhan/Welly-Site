@@ -8,6 +8,8 @@ import {
   Col
 } from 'reactstrap'
 
+import '../App.css'
+
 class WeatherModal extends Component {
 
   state = {

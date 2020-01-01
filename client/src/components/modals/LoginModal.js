@@ -13,6 +13,8 @@ import {
   Input
 } from 'reactstrap'
 
+import '../App.css'
+
 import { login, clearAuthError } from '../../actions/authActions'
 
 class LoginModal extends Component {

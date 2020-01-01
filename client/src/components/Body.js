@@ -2,6 +2,8 @@ import React from 'react'
 import { BrowserRouter, Switch, Route, Redirect } from 'react-router-dom'
 import { connect } from 'react-redux'
 
+import '../App.css'
+
 import Home from './Home'
 import Profile from './Profile'
 import Category from './Category'
