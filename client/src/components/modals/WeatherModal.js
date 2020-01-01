@@ -8,7 +8,7 @@ import {
   Col
 } from 'reactstrap'
 
-import '../App.css'
+import '../../App.css'
 
 class WeatherModal extends Component {
 

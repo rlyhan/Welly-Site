@@ -13,7 +13,7 @@ import {
   Input
 } from 'reactstrap'
 
-import '../App.css'
+import '../../App.css'
 
 import { login, clearAuthError } from '../../actions/authActions'
 
