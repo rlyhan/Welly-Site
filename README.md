@@ -8,9 +8,12 @@ The current version of the site allows you to:
 - View weather on the home page.
 
 # Run this app locally
-1. Clone this repository
-2. Run npm install
-3. Run npm start
+1. Sign up for MongoDB Atlas, create a cluster, obtain the Mongo URI: https://www.youtube.com/watch?v=KKyag6t98g8
+2. Sign up for API keys for Yelp Fusion (https://www.yelp.com/fusion) and AirVisual (https://www.airvisual.com/air-pollution-data-api)
+3. Clone this repository
+4. In root directory, create a .env file, add your Mongo URI, API keys, and a JWT secret (see provided .envexample file)
+5. Run npm install
+6. Run npm start
 
 # Technologies
 Front end: React, Redux, styled with Bootstrap\
