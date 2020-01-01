@@ -112,9 +112,6 @@ class GeneralSearch extends Component {
     return (
       <Container className="general">
         <Container className="mb-5">
-          <Row className="mx-auto my-4 justify-content-center">
-            <p className="lead">Browse all places, events, services and more</p>
-          </Row>
           <Row className="mb-5">
             <Container className="search">
               <div className="search-bar">
