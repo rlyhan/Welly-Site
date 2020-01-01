@@ -1,0 +1,4 @@
+MONGO_URI=your-mongodb-atlas-uri-here
+REACT_APP_JWT_SECRET=enter-a-secret
+REACT_APP_YELP_KEY=your-yelp-key
+REACT_APP_AIRVISUAL_KEY=your-airvisual-key
