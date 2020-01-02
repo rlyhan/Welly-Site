@@ -27,7 +27,7 @@ class WeatherModal extends Component {
       <>
         <div className="weather-panel bg-transparent border-0 text-center" onClick={this.toggle}>
           <img className="weather-icon" src={require(`../../images/weather-icons/${this.props.weather.weatherIcon}.png`)} />
-          <div className="weather-info text-white text-left">
+          <div className="weather-info text-white">
             <h2>{this.props.weather.airvisualInfo.current.weather.tp}°C</h2>
           </div>
         </div>
