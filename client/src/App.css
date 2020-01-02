@@ -187,6 +187,11 @@
 
 /* Search Bar */
 
+.search {
+  padding-left: 10px !important;
+  padding-right: 10px !important;
+}
+
 .search-bar {
   height: 60px;
   max-width: 600px;
