@@ -74,7 +74,7 @@ class Home extends Component {
             <img src={require('../images/wellington-day.jpg')}></img>
           </div>
           <Container>
-            <h1 className="logo text-center" style={{color: 'white', fontSize: '90px', marginTop: '40px'}}>WELLY.</h1>
+            <h1 className="logo text-center" style={{fontSize: '90px', marginTop: '40px', marginBottom: '20px'}}>WELLY.</h1>
           </Container>
           <Container>
             <Row className="justify-content-center">

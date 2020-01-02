@@ -1,4 +1,4 @@
-@import-normalize; 
+@import-normalize;
 
 /*** SITE ***/
 
@@ -14,7 +14,7 @@
 }
 
 .logo {
-  color: black;
+  color: white;
   font-family: 'Fira Sans', sans-serif;
   font-size: 1.25rem;
   letter-spacing: 1px;

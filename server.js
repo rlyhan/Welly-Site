@@ -1,5 +1,6 @@
 const express = require('express')
 const mongoose = require('mongoose')
+const cors = require('cors')
 const app = express()
 const path = require('path')
 require('dotenv').config()
@@ -10,6 +11,9 @@ const airvisual = require('./routes/api/airvisual')
 
 // Bodyparser Middleware
 app.use(express.json())
+
+// Use Cross Origin Resource Sharing
+app.use(cors())
 
 // Connect to Mongo
 mongoose
