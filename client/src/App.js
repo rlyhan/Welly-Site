@@ -13,11 +13,6 @@ class App extends Component {
 
   componentDidMount() {
     store.dispatch(loadUser())
-    WebFont.load({
-       google: {
-         families: ['Fira Sans:800i']
-       }
-    });
   }
 
   render() {
