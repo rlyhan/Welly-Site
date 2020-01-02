@@ -194,7 +194,7 @@
 
 .search-bar {
   height: 60px;
-  max-width: 600px;
+  max-width: 700px;
   margin: auto;
   border-radius: 60px;
   background: #DCDCDC;
@@ -202,7 +202,7 @@
 }
 
 .search-bar input[type=text] {
-  max-width: 540px;
+  max-width: 640px;
   padding-left: 25px;
   border: none;
   background: none;
@@ -210,6 +210,7 @@
   transition: 0.4s;
   line-height: 60px;
   flex: 1;
+  overflow: hidden;
 }
 
 .search-bar a {
