@@ -1,4 +1,5 @@
 import React, { Component } from 'react'
+import WebFont from 'webfontloader';
 
 import NavMenu from './components/NavMenu'
 import Body from './components/Body'
@@ -12,6 +13,11 @@ class App extends Component {
 
   componentDidMount() {
     store.dispatch(loadUser())
+    WebFont.load({
+       google: {
+         families: ['Fira Sans:800i']
+       }
+    });
   }
 
   render() {
