@@ -13,7 +13,7 @@
 
 .logo {
   color: white;
-  font-family: 'Fira Sans', sans-serif;
+  font-family: 'Fira Sans', sans-serif !important;
   font-size: 1.25rem;
   letter-spacing: 1px;
 }
