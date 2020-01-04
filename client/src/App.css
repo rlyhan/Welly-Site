@@ -73,7 +73,6 @@
   width: 140px;
   margin: 10px auto;
   text-align: center;
-  overflow: auto;
 }
 
 .weather-panel:hover {
@@ -83,22 +82,6 @@
 .weather-icon {
   width: 70px;
   height: 70px;
-  float: left;
-}
-
-.weather-info {
-  margin-top: 10px;
-  float: right;
-}
-
-.weather-info h2 {
-  margin-bottom: 2px;
-}
-
-.weather-info h5 {
-  font-size: 10px;
-  margin-bottom: 0;
-  text-align: center;
 }
 
 .weather-description {
