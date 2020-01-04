@@ -72,6 +72,7 @@
 .weather-panel {
   width: 140px;
   margin: 10px auto;
+  text-align: center;
 }
 
 .weather-panel:hover {
@@ -81,12 +82,10 @@
 .weather-icon {
   width: 70px;
   height: 70px;
-  float: left;
 }
 
 .weather-info {
   margin-top: 10px;
-  float: right;
 }
 
 .weather-info h2 {
@@ -101,22 +100,6 @@
 
 .weather-description {
   text-align: center;
-}
-
-@media only screen and (max-width: 275px) {
-
-  .weather-panel {
-    text-align: center;
-  }
-
-  .weather-icon {
-    float: none !important;
-  }
-
-  .weather-info {
-    float: none !important;
-  }
-
 }
 
 /* Navigation */
