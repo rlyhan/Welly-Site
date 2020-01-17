@@ -84,7 +84,7 @@
 }
 
 .weather-modal-content .weather-icon {
-  height: auto;
+  height: 70px;
 }
 
 .weather-description {
