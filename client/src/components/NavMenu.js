@@ -68,9 +68,7 @@ class NavMenu extends Component {
             </Nav>
             <Nav navbar className="ml-auto pr-4" style={{backgroundColor: '#ADD8E6'}}>
             {
-              this.props.auth.loading ?
-              null
-              :
+              this.props.auth.loading ? null :
               <>
               {
                 this.props.auth.authenticated ?

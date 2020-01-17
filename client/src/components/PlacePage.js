@@ -95,8 +95,8 @@ class PlacePage extends Component {
                 <Col className="col-12 col-md-4 my-auto px-4" style={{padding: "none"}}>
                   {
                     yelpInfo.image_url ?
-                    <img src={yelpInfo.image_url} style={{ border: "2px solid white" }}/>
-                    : <img className="placeholder" src={require(`../images/place-placeholder.png`)} />
+                    <img src={yelpInfo.image_url} style={{ border: "2px solid white" }}/> :
+                    <img className="placeholder" src={require(`../images/place-placeholder.png`)} />
                   }
                 </Col>
                 <Col className="col-12 col-md-8 px-4">

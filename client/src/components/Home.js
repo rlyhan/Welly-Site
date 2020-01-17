@@ -80,10 +80,10 @@ class Home extends Component {
             <Row className="justify-content-center">
               {
                 this.props.airvisualInfo.loading ?
-                <img className="loading-animation" src={require('../images/loading.gif')}/>
-                : this.props.airvisualInfo.error ?
-                <br></br>
-                : <WeatherModal weather={this.props.airvisualInfo} />
+                <img className="loading-animation" src={require('../images/loading.gif')}/> :
+                this.props.airvisualInfo.error ?
+                <br></br> :
+                <WeatherModal weather={this.props.airvisualInfo} />
               }
             </Row>
             <Row className="home-links text-center my-2">
