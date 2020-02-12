@@ -115,7 +115,14 @@ class PlacePage extends Component {
                       </p>
                     </Row>
                     <Row className="heading">
-                      <h5><span style={{color: 'yellow'}}>{this.getStars(yelpInfo.rating)}</span> <span style={{fontSize: '15px'}}>({yelpInfo.review_count} reviews)</span></h5>
+                      <h5>
+                        <span style={{color: 'yellow'}}>
+                          {this.getStars(yelpInfo.rating)}
+                        </span>
+                        <span style={{fontSize: '15px'}}>
+                          &nbsp;({yelpInfo.review_count} reviews)
+                        </span>
+                      </h5>
                     </Row>
                     <Row className="heading">
                       <p className="mb-0">
@@ -133,9 +140,13 @@ class PlacePage extends Component {
                         this.props.auth.user.favouritePlaces.find(place => {
                           return place.yelpId == this.props.url
                         }) != null ?
-                        <Button className="my-2" color="danger" onClick={this.removeFromFavourites} disabled={this.state.removeButtonDisabled}>REMOVE FROM FAVOURITES</Button>
+                        <Button className="my-2" color="danger" onClick={this.removeFromFavourites} disabled={this.state.removeButtonDisabled}>
+                          REMOVE FROM FAVOURITES
+                        </Button>
                         :
-                        <Button className="my-2" color="success" onClick={this.addToFavourites} disabled={this.state.addButtonDisabled}>ADD TO FAVOURITES</Button>
+                        <Button className="my-2" color="success" onClick={this.addToFavourites} disabled={this.state.addButtonDisabled}>
+                          ADD TO FAVOURITES
+                        </Button>
                       }
                       </>
                     }
@@ -175,14 +186,14 @@ class PlacePage extends Component {
             }
           </TabPane>
           <TabPane tabId="3" className="reviews">
-            <Container className="py-5" fluid>
+            <Container className="py-3" fluid>
               <ul>
               {
                 this.props.yelpReviews.yelpReviews ?
                 this.props.yelpReviews.yelpReviews.map((review, index) => {
                   return (
                     <li key={index}>
-                      <Card style={{backgroundColor: "#323031"}}>
+                      <Card style={{backgroundColor: "#2F2F2F"}}>
                         <CardBody>
                           <CardTitle style={{color: "yellow"}}>{this.getStars(review.rating)}</CardTitle>
                           <CardSubtitle style={{fontWeight: "bold"}}>{(review.user.name).toUpperCase()}</CardSubtitle>

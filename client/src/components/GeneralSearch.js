@@ -139,10 +139,14 @@ class GeneralSearch extends Component {
         <Row className="justify-content-center">
           <Pagination>
             <PaginationItem>
-              <PaginationLink onClick={this.changePageBack} disabled={this.state.backButtonDisabled} previous />
+              <PaginationLink onClick={this.changePageBack} disabled={this.state.backButtonDisabled}>
+                ⯇
+              </PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink onClick={this.changePageNext} disabled={this.state.nextButtonDisabled} next />
+              <PaginationLink onClick={this.changePageNext} disabled={this.state.nextButtonDisabled}>
+                ⯈
+              </PaginationLink>
             </PaginationItem>
           </Pagination>
         </Row>

@@ -80,52 +80,53 @@ class Category extends Component {
     }
   }
 
+  // Select a sort option
   onSortSelect = e => {
-    this.setState({
-      sortMethod: e.target.value
+    this.setState({ sortMethod: e.target.value })
+    if (e.target.value == "") document.getElementById('sort-menu').value = ""
+  }
+
+  // Return results according to given sort method
+  getSortedResults = (sortMethod) => {
+    if (sortMethod == "") return this.state.yelpInfo
+    return this.state.yelpInfo.slice().sort((a, b) => {
+      if (a[sortMethod] < b[sortMethod]) {
+        return 1
+      } else if (a[sortMethod] > b[sortMethod]) {
+        return -1
+      }
+      return 0
     })
-    if (e.target.value == "") {
-      document.getElementById('sort-menu').value = ""
-    }
   }
 
-  getSortedResults = (results, sortMethod) => {
-    if (sortMethod == "") {
-      return results
-    } else {
-      return results.sort(function(a, b) {
-        if (a[sortMethod] < b[sortMethod]) {
-          return 1
-        } else if (a[sortMethod] > b[sortMethod]) {
-          return -1
-        }
-        return 0
-      })
-    }
-  }
-
+  // On checking a filter
   onFilterSelect = e => {
     let selectedFilter = e.target
     let newFilters = this.state.filters
+
+    // If a filter is selected, add filters to current array of filters
+    // Else if filter is deselected, remove from current array of filters
     if (selectedFilter.checked) {
-      newFilters.push(selectedFilter.value)
-      this.setState({ filters: newFilters })
+      this.setState({ filters: [...newFilters, selectedFilter.value] })
     } else {
       let removeIndex = this.state.filters.indexOf(selectedFilter.value)
       newFilters.splice(removeIndex, 1)
-      this.setState({
-        filters: newFilters
-      })
+      this.setState({ filters: newFilters })
     }
   }
 
+  // On clicking apply filter button
   applyFilters = () => {
+    // If filters selected, fetch filtered results
+    // Else return all results in category
     if (this.state.filters.length > 0) {
       this.props.getPlacesByCategory(this.state.filters.join(","), 1)
     } else {
       this.props.getPlacesByCategory(this.props.categoryType, 1)
     }
     document.getElementById('sort-menu').value = ""
+
+    // If there are more than 10 results remaining, make next page visitable
     if (this.props.yelpInfo.yelpInfo.length > 10) {
       this.setState({
         currentPage: 1,
@@ -160,8 +161,6 @@ class Category extends Component {
               <Label for="sort">SORT</Label>
               <FormGroup className="sort-box">
                 <Input id="sort-menu" type="select" name="sort" onChange={this.onSortSelect.bind(this)}>
-  {/*                <option onChange={this.onSort} value="">Cost (Low to High)</option>
-                  <option onChange={this.onSort} value="">Cost (High to Low)</option>*/}
                   <option value="">Sort</option>
                   <option value="rating">Highest Rated</option>
                   <option value="review_count">No. of Reviews</option>
@@ -194,7 +193,7 @@ class Category extends Component {
           <Col className="col-12 col-md-9">
           {
             this.state.yelpInfo ?
-            <SearchResults results={this.getSortedResults(this.state.yelpInfo, this.state.sortMethod)} category={this.props.categoryName} />
+            <SearchResults results={this.getSortedResults(this.state.sortMethod)} category={this.props.categoryName} />
             : this.props.yelpInfo.loading ? <div className="search-end"><img className="loading-animation" src={require('../images/loading.gif')}/></div>
             : <div className="search-end">No results</div>
           }
@@ -203,10 +202,14 @@ class Category extends Component {
         <Row className="justify-content-end">
           <Pagination>
             <PaginationItem>
-              <PaginationLink onClick={this.changePageBack} disabled={this.state.backButtonDisabled} previous />
+              <PaginationLink onClick={this.changePageBack} disabled={this.state.backButtonDisabled}>
+                ⯇
+              </PaginationLink>
             </PaginationItem>
             <PaginationItem>
-              <PaginationLink onClick={this.changePageNext} disabled={this.state.nextButtonDisabled} next />
+              <PaginationLink onClick={this.changePageNext} disabled={this.state.nextButtonDisabled}>
+                ⯈
+              </PaginationLink>
             </PaginationItem>
           </Pagination>
         </Row>

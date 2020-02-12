@@ -63,7 +63,7 @@
   background-position: center center;
   background-attachment: fixed;
   background-repeat: no-repeat;
-  filter: blur(1px) brightness(65%);
+  filter: blur(1px) brightness(85%);
   margin: -5px -10px -10px -5px;
 }
 
@@ -261,7 +261,6 @@
   border: 1px solid #CCC2CE;
   border-radius: 10px;
   background-color: white;
-  box-shadow: 2px 2px 2px 1px #827D93;
 }
 
 .search-result {
@@ -289,6 +288,7 @@
   height: 152px;
   border: 1px solid #C6BE91;
   border-radius: 50%;
+  background: black;
   object-fit: cover;
   align-self: flex-start;
 }
@@ -353,9 +353,9 @@
 
 .pagination button {
   color: white;
-  font-size: 25px;
-  font-weight: 600;
-  background-color: #79737a;
+  font-style: normal;
+  font-size: 18px;
+  background-color: #7A7978;
 }
 
 /*** PLACE ***/
@@ -367,7 +367,7 @@
 
 .place-page .nav-item {
   width: 90px;
-  background-color: #323031;
+  background-color: #2F2F2F;
 }
 
 .place-page .nav-link {
@@ -387,14 +387,14 @@
 }
 
 .place-page-active-tab {
-  background-color: #272727 !important;
+  background-color: #252323 !important;
 }
 
 .place-page .tab-content {
   border-top-right-radius: 10px;
   border-bottom-right-radius: 10px;
   border-bottom-left-radius: 10px;
-  background-color: #272727;
+  background-color: #252323;
   text-align: center;
 }
 
@@ -415,6 +415,7 @@
 
 .place-page .paragraph {
   margin-top: 10px;
+  text-align: left;
 }
 
 .place-page .paragraph .row {
@@ -444,15 +445,16 @@
 /* Reviews */
 
 .place-page .reviews ul {
-  padding: 0 100px 0 100px;
+  display: flex;
+  margin: 0;
+  padding: 0;
   text-align: left;
   list-style-type: none;
 }
 
 .place-page .reviews li {
   color: white;
-  padding: 10px;
-  margin-bottom: 20px;
+  padding: 20px;
   border-radius: 5px;
 }
 
@@ -475,6 +477,11 @@
     width: 196px;
     height: 196px;
     padding: 20px;
+  }
+
+  .place-page .reviews ul {
+    padding: 10px 20px;
+    display: block;
   }
 
 }
@@ -500,10 +507,6 @@
     justify-content: center;
   }
 
-  .place-page .heading p {
-    text-align: center !important;
-  }
-
   .place-page .favourite-button  {
     justify-content: center;
   }
@@ -511,6 +514,7 @@
   .place-page .paragraph {
     width: 100%;
     margin-top: 0 !important;
+    text-align: center;
   }
 
   .place-page .desc .col {
@@ -520,10 +524,6 @@
 
   .place-page .tab-content {
     border-top-right-radius: 0;
-  }
-
-  .place-page .reviews ul {
-    padding: 0;
   }
 
 }
@@ -562,6 +562,7 @@
 
 footer {
   font-size: 13px;
+  font-weight: 500;
   color: white;
   position: relative;
   bottom: 0;
@@ -569,5 +570,14 @@ footer {
   right: 0;
   width: 100%;
   height: 50px;
-  background: #323031 !important;
+  background: #252323 !important;
+}
+
+footer a {
+  color: #ADD8E6;
+}
+
+footer a:hover {
+  color: white;
+  text-decoration: none;
 }

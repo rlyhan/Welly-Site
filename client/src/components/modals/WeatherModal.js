@@ -36,7 +36,7 @@ class WeatherModal extends Component {
           isOpen={this.state.modal}
           toggle={this.toggle}
         >
-          <ModalHeader toggle={this.toggle}>Weather</ModalHeader>
+          <ModalHeader toggle={this.toggle} />
           <ModalBody className="weather-modal-content">
             <Row>
               <Col className="col-12">
