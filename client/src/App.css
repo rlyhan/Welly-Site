@@ -115,8 +115,8 @@
 }
 
 .weather-modal-content .weather-icon {
-  width: 95px;
-  height: 85px;
+  width: 75px;
+  height: 67px;
 }
 
 .weather-description {
@@ -140,7 +140,8 @@
   }
 
   .weather-modal-content .weather-icon {
-    height: 67px;
+    width: 95px;
+    height: 85px;
   }
 
 }
