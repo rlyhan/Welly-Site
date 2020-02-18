@@ -125,7 +125,7 @@ class PlacePage extends Component {
                       </h5>
                     </Row>
                     <Row className="heading">
-                      <p className="mb-0">
+                      <p className="address mb-0">
                       {
                         yelpInfo.location &&
                         yelpInfo.location.display_address.join(", ")
@@ -194,13 +194,13 @@ class PlacePage extends Component {
                   return (
                     <li key={index}>
                       <Card style={{backgroundColor: "#2F2F2F"}}>
-                        <CardBody>
+                        <CardBody className="review-top">
                           <CardTitle style={{color: "yellow"}}>{this.getStars(review.rating)}</CardTitle>
                           <CardSubtitle style={{fontWeight: "bold"}}>{(review.user.name).toUpperCase()}</CardSubtitle>
+                          <CardText>{new Date(review.time_created).toString().split("GMT")[0]}</CardText>
                         </CardBody>
-                        <CardBody className="pt-0">
-                          <CardText>{review.time_created}</CardText>
-                          <CardText>{review.text}</CardText>
+                        <CardBody className="review-body pt-0">
+                          <CardText>{review.text}<i> Full review on Yelp</i></CardText>
                         </CardBody>
                       </Card>
                     </li>

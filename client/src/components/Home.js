@@ -69,69 +69,65 @@ class Home extends Component {
 
     return (
       <div className="home">
-        <Jumbotron fluid className="home-jumbotron mb-0">
-          <div className="home-image">
-            <img src={require('../images/wellington-day.jpg')}></img>
-          </div>
-          <Container>
-            <h1 className="logo text-center" style={{fontSize: '90px', marginTop: '40px', marginBottom: '20px'}}>WELLY.</h1>
-          </Container>
-          <Container>
-            <Row className="justify-content-center">
-              {
-                this.props.airvisualInfo.loading ?
-                <img className="loading-animation" src={require('../images/loading.gif')}/> :
-                this.props.airvisualInfo.error ?
-                <br></br> :
-                <WeatherModal weather={this.props.airvisualInfo} />
-              }
-            </Row>
-            <Row className="home-links text-center my-2">
-              <Col className="col-12 col-sm-4">
-                <Card>
-                  <a href="/shops"><CardBody>
-                    <CardImg src={require('../images/home-icons/shopping.png')}></CardImg>
-                  </CardBody></a>
-                </Card>
-                <CardTitle>SHOP</CardTitle>
-              </Col>
-              <Col className="col-12 col-sm-4">
-                <Card>
-                  <a href="/eat"><CardBody>
-                    <CardImg src={require('../images/home-icons/restaurants.png')}></CardImg>
-                  </CardBody></a>
-                </Card>
-                <CardTitle>EAT</CardTitle>
-              </Col>
-              <Col className="col-12 col-sm-4">
-                <Card>
-                  <a href="/bars"><CardBody>
-                    <CardImg src={require('../images/home-icons/nightlife.png')}></CardImg>
-                  </CardBody></a>
-                </Card>
-                <CardTitle>BARS & NIGHTLIFE</CardTitle>
-              </Col>
-              {/*   this is for stretch      padding/margin around existing categories to pull them in closer
-              <Col>
-                <Card>
-                  <CardBody>
-                    <CardImg src={require('../images/home-icons/events.png')}></CardImg>
-                  </CardBody>
-                </Card>
-                <CardTitle>EVENTS</CardTitle>
-              </Col>
-              <Col>
-                <Card>
-                  <CardBody>
-                    <CardImg src={require('../images/home-icons/services.png')}></CardImg>
-                  </CardBody>
-                </Card>
-                <CardTitle>SERVICES</CardTitle>
-              </Col>
-              */}
-            </Row>
-          </Container>
-        </Jumbotron>
+        <Jumbotron fluid className="home-jumbotron mb-0" />
+        <Container fluid className="home-container">
+          <Row className="justify-content-center">
+            <h1 className="logo text-center">WELLY.</h1>
+          </Row>
+          <Row className="justify-content-center">
+            {
+              this.props.airvisualInfo.loading ?
+              <img className="loading-animation" src={require('../images/loading.gif')}/> :
+              this.props.airvisualInfo.error ?
+              <br></br> :
+              <WeatherModal weather={this.props.airvisualInfo} />
+            }
+          </Row>
+          <Row className="home-links text-center my-2">
+            <Col className="col-12 col-sm-4">
+              <Card>
+                <a href="/shops"><CardBody>
+                  <CardImg src={require('../images/home-icons/shopping.png')}></CardImg>
+                </CardBody></a>
+              </Card>
+              <CardTitle>SHOP</CardTitle>
+            </Col>
+            <Col className="col-12 col-sm-4">
+              <Card>
+                <a href="/eat"><CardBody>
+                  <CardImg src={require('../images/home-icons/restaurants.png')}></CardImg>
+                </CardBody></a>
+              </Card>
+              <CardTitle>EAT</CardTitle>
+            </Col>
+            <Col className="col-12 col-sm-4">
+              <Card>
+                <a href="/bars"><CardBody>
+                  <CardImg src={require('../images/home-icons/nightlife.png')}></CardImg>
+                </CardBody></a>
+              </Card>
+              <CardTitle>BARS</CardTitle>
+            </Col>
+            {/*   this is for stretch      padding/margin around existing categories to pull them in closer
+            <Col>
+              <Card>
+                <CardBody>
+                  <CardImg src={require('../images/home-icons/events.png')}></CardImg>
+                </CardBody>
+              </Card>
+              <CardTitle>EVENTS</CardTitle>
+            </Col>
+            <Col>
+              <Card>
+                <CardBody>
+                  <CardImg src={require('../images/home-icons/services.png')}></CardImg>
+                </CardBody>
+              </Card>
+              <CardTitle>SERVICES</CardTitle>
+            </Col>
+            */}
+          </Row>
+        </Container>
         <div className="scrolldown" onClick={this.handleScroll}><span></span></div>
         <span ref={ref}></span>
         <GeneralSearch />

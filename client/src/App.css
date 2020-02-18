@@ -29,6 +29,11 @@
   cursor: pointer;
 }
 
+.modal-open {
+  padding: 0 !important;
+  overflow: hidden;
+}
+
 /*** LOADING GIF ***/
 
 .loading-animation {
@@ -44,34 +49,46 @@
   min-height: 100vh;
   position: relative;
   overflow: hidden;
-}
-
-.home-jumbotron .container {
-  position: relative;
-  z-index: 2;
-}
-
-.home-image {
-  position: absolute;
-  top: 0;
-  z-index: 1;
-  overflow: hidden;
-}
-
-.home-image img {
-  background-size: cover;
-  background-position: center center;
+  background-image: url('./images/wellington-day.jpg');
   background-attachment: fixed;
   background-repeat: no-repeat;
-  filter: blur(1px) brightness(85%);
-  margin: -5px -10px -10px -5px;
+  background-size: cover;
+  filter: blur(0.6px) brightness(78%);
+}
+
+.home-container, .scrolldown {
+  z-index: 90;
+  position: absolute;
+  left: 0;
+  right: 0;
+}
+
+.home-container {
+  left: 50%;
+  top: 50%;
+  transform: translate(-50%,-50%);
+}
+
+.home-container h1 {
+  font-size: 3em;
+}
+
+.scrolldown {
+  bottom: -40px;
+}
+
+@media only screen and (min-width: 576px) {
+
+  .home-container h1 {
+    font-size: 90px;
+  }
+
 }
 
 /* Weather Panel */
 
 .weather-panel {
   width: 140px;
-  margin: 10px auto;
   text-align: center;
 }
 
@@ -80,15 +97,38 @@
 }
 
 .weather-icon {
-  width: 70px;
+  width: 40px;
 }
 
-.weather-modal-content .weather-icon {
+/* .weather-modal-content .weather-icon {
   height: 70px;
+} */
+
+.weather-info > h4 {
+  font-size: 1.2rem;
+  margin: 0;
 }
 
 .weather-description {
+  font-size: 1.4rem;
   text-align: center;
+}
+
+@media only screen and (min-width: 576px) {
+
+  .weather-panel {
+    margin: 10px auto;
+  }
+
+  .weather-icon {
+    width: 75px;
+  }
+
+  .weather-info > h4 {
+    font-size: 1.5rem;
+    margin: 0;
+  }
+
 }
 
 /* Navigation */
@@ -98,8 +138,7 @@
 }
 
 .home-links .card {
-  width: 100px;
-  height: 100px;
+  width: 5rem;
   margin: auto;
   border: 0px;
   border-radius: 90px;
@@ -118,27 +157,39 @@
   margin: auto;
 }
 
+.home-links .card-body {
+  padding-bottom: 10px;
+}
+
 .home-links .card-title {
   color: white;
   font-family: 'Fira Sans', sans-serif;
-  font-size: 20px;
+  font-size: 15px;
   letter-spacing: 1px;
   margin-top: auto;
+  margin-bottom: 0;
+}
+
+@media only screen and (min-width: 576px) {
+
+  .home-links .card {
+    width: 100px;
+  }
+
+  .home-links .card-body {
+    padding-bottom: 20px;
+  }
+
+  .home-links .card-title {
+    font-size: 20px;
+  }
+
 }
 
 @media only screen and (min-width: 992px) {
 
   .home-links {
-    padding-right: 120px;
-    padding-left: 120px;
-  }
-
-}
-
-@media only screen and (max-width: 767px) {
-
-  .home-links {
-    margin-top: 0;
+    padding: 0 15%;
   }
 
 }
@@ -422,6 +473,10 @@
   margin: 10px 0 10px 0;
 }
 
+.place-page .address {
+  text-align: left;
+}
+
 .place-page .desc .col {
   padding: 0;
 }
@@ -460,6 +515,21 @@
 
 .place-page .reviews .container {
   width: 60%;
+}
+
+.place-page .review-top {
+  background-color: #2F2F2F;
+  border-top-left-radius: .25em;
+  border-top-right-radius: .25em;
+}
+
+.place-page .review-body {
+  padding-top: 15px !important;
+  color: black;
+  font-weight: 500;
+  background-color: white;
+  border-bottom-left-radius: .25em;
+  border-bottom-right-radius: .25em;
 }
 
 @media only screen and (max-width: 1199px) {
@@ -514,6 +584,11 @@
   .place-page .paragraph {
     width: 100%;
     margin-top: 0 !important;
+    text-align: center;
+  }
+
+  .place-page .address {
+    padding: 0 20px;
     text-align: center;
   }
 
