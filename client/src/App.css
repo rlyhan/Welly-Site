@@ -50,7 +50,7 @@
   position: relative;
   overflow: hidden;
   background-image: url('./images/wellington-day.jpg');
-  background-attachment: fixed;
+  background-attachment: scroll;
   background-repeat: no-repeat;
   background-size: cover;
   filter: blur(0.6px) brightness(78%);
@@ -79,6 +79,10 @@
 
 @media only screen and (min-width: 576px) {
 
+  .home-jumbotron {
+    background-attachment: fixed;
+  }
+
   .home-container h1 {
     font-size: 90px;
   }
@@ -100,9 +104,9 @@
   width: 40px;
 }
 
-/* .weather-modal-content .weather-icon {
-  height: 70px;
-} */
+.weather-modal-content .weather-icon {
+  height: auto;
+}
 
 .weather-info > h4 {
   font-size: 1.2rem;
