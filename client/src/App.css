@@ -56,7 +56,7 @@
   background-attachment: scroll;
   background-repeat: no-repeat;
   background-size: cover;
-  filter: blur(0.6px) brightness(78%);
+  filter: blur(0.3px) brightness(83%);
   transform: scale(1.03);
 }
 
@@ -85,6 +85,7 @@
 
   .home-jumbotron {
     background-attachment: fixed;
+    filter: blur(0.6px) brightness(78%);
   }
 
   .home-container h1 {
@@ -113,6 +114,11 @@
   margin: 0;
 }
 
+.weather-modal-content .weather-icon {
+  width: 95px;
+  height: 85px;
+}
+
 .weather-description {
   font-size: 1.4rem;
   text-align: center;
@@ -131,6 +137,10 @@
   .weather-info > h4 {
     font-size: 1.5rem;
     margin: 0;
+  }
+
+  .weather-modal-content .weather-icon {
+    height: 67px;
   }
 
 }
