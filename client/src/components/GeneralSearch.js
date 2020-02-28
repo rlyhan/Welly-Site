@@ -140,12 +140,12 @@ class GeneralSearch extends Component {
           <Pagination>
             <PaginationItem>
               <PaginationLink onClick={this.changePageBack} disabled={this.state.backButtonDisabled}>
-                ⯇
+                PREV
               </PaginationLink>
             </PaginationItem>
             <PaginationItem>
               <PaginationLink onClick={this.changePageNext} disabled={this.state.nextButtonDisabled}>
-                ⯈
+                NEXT
               </PaginationLink>
             </PaginationItem>
           </Pagination>
