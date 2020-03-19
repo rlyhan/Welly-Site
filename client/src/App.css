@@ -23,6 +23,12 @@
   letter-spacing: 1px;
 }
 
+.home-top-navigation {
+  width: 100%;
+  position: absolute;
+  z-index: 95;
+}
+
 /*** MODALS ***/
 
 .login-modal:hover, .register-modal:hover, .profile-button:hover, .logout-button:hover {
@@ -32,6 +38,15 @@
 .modal-open {
   padding: 0 !important;
   overflow: hidden;
+}
+
+.facebook-logo {
+  height: 38px;
+}
+
+.facebook-link:hover {
+  color: #007bff;
+  cursor: pointer;
 }
 
 /*** LOADING GIF ***/

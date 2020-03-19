@@ -44,9 +44,8 @@ export const loadUser = () => (dispatch, getState) => {
         })
       })
 
-  } else {
-    dispatch({ type: AUTH_ERROR })
   }
+  
 }
 
 // Register user
@@ -99,8 +98,31 @@ export const login = ({ loginName, password }) => dispatch => {
 
 }
 
+// Auth with Facebook
+export const facebookAuth = () => dispatch => {
+
+  axios.get('/api/auth/facebook/success', {
+    credentials: "same-origin"
+  })
+    .then(res => {
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data
+      })
+    })
+    .catch(err => {
+      console.log("fb login fail")
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err
+      })
+    })
+
+}
+
 // Logout
 export const logout = () => dispatch => {
+  axios.get('/api/auth/logout')
   dispatch({
     type: LOGOUT_SUCCESS
   })
@@ -122,7 +144,6 @@ export const addToFavourites = ({ name, yelpId }, userId) => dispatch => {
       type: FAVOURITE_ADDED,
       payload: res.data
     }))
-
 
 }
 

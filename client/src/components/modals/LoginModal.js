@@ -76,10 +76,14 @@ class LoginModal extends Component {
                 <Input type="password" name="password" id="password-field" onChange={this.onChange} />
               </FormGroup>
               { this.state.warningShowing && <p className="text-danger">Login failed.</p> }
+              <FormGroup>
+                <img className="facebook-logo" src={require('../../images/facebook.png')}></img>
+                <a href="http://localhost:5000/api/auth/facebook"><Label for="facebook-login" className="facebook-link">&nbsp;&nbsp;Login with Facebook</Label></a>
+              </FormGroup>
             </Form>
           </ModalBody>
           <ModalFooter>
-            <Button color="primary" onClick={this.loginAccount}>Login</Button>{' '}
+            <Button color="primary" onClick={this.loginAccount}>Login</Button>
             <Button color="secondary" onClick={this.toggle}>Cancel</Button>
           </ModalFooter>
         </Modal>

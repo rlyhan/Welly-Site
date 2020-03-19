@@ -3,8 +3,13 @@ const mongoose = require('mongoose')
 const cors = require('cors')
 const app = express()
 const path = require('path')
+const jwt = require('jsonwebtoken')
+const passport = require('passport')
+const FacebookStrategy = require('passport-facebook').Strategy
+
 require('dotenv').config()
 
+const User = require('./models/User')
 const auth = require('./routes/api/auth')
 const yelp = require('./routes/api/yelp')
 const airvisual = require('./routes/api/airvisual')
@@ -14,6 +19,75 @@ app.use(express.json())
 
 // Use Cross Origin Resource Sharing
 app.use(cors())
+
+// Passport Middleware
+app.use(passport.initialize())
+app.use(passport.session())
+
+// Passport Session
+passport.serializeUser(function(user, done) {
+  done(null, user)
+})
+
+passport.deserializeUser(function(user, done) {
+  done(null, user)
+})
+
+// Use Passport Facebook Strategy
+passport.use(new FacebookStrategy({
+    clientID: process.env.FACEBOOK_APP_ID,
+    clientSecret: process.env.FACEBOOK_APP_SECRET,
+    callbackURL: 'http://localhost:5000/api/auth/facebook/callback',
+    profileFields: ['id', 'displayName', 'picture']
+  },
+  function(accessToken, refreshToken, profile, done) {
+    console.log(profile)
+    process.nextTick(function() {
+      User.findOne({'facebook.id': profile.id}, function(err, user){
+        if(err) return done
+        if(user) {
+          jwt.sign({ id: user.id }, process.env.REACT_APP_JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+            if (err) throw err
+
+            var userObj = {
+              user: {
+                id: user.id,
+                username: user.username,
+                favouritePlaces: user.favouritePlaces
+              },
+              token: token
+            }
+
+            return done(null, userObj)
+          })
+        } else {
+          const newUser = {
+            "username": profile.displayName,
+            "facebook.id": profile.id
+          }
+
+          User.create(newUser, (err, user) => {
+            if (err) return done(err)
+            jwt.sign({ id: user.id }, process.env.REACT_APP_JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+              if (err) throw err
+
+              var userObj = {
+                user: {
+                  id: user.id,
+                  username: user.username,
+                  favouritePlaces: user.favouritePlaces
+                },
+                token: token
+              }
+
+              return done(null, userObj)
+            })
+          })
+        }
+      })
+    })
+  }
+))
 
 // Connect to Mongo
 mongoose

@@ -2,9 +2,12 @@ const express = require('express')
 const router = express.Router()
 const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
+const passport = require('passport')
 const auth = require('../../middleware/auth')
 
 const User = require('../../models/User')
+
+let facebookUser = {}
 
 router.get('/user', auth, (req, res) => {
   User.findById(req.user.id)
@@ -49,6 +52,12 @@ router.post('/register', (req, res, next) => {
         password
       }
 
+      bcrypt.hash(newUser.password, 10, (err, hash) => {
+        if (err) return next(err);
+        newUser.password = hash;
+        next();
+      })
+
       User.create(newUser, (err, user) => {
         if (err) {
           return next(err)
@@ -56,12 +65,12 @@ router.post('/register', (req, res, next) => {
           jwt.sign({ id: user.id }, process.env.REACT_APP_JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
             if (err) throw err
             res.json({
-              token,
               user: {
                 id: user.id,
                 username: user.username,
                 email: user.email
-              }
+              },
+              token: token
             })
           })
         }
@@ -86,17 +95,39 @@ router.post('/login', (req, res, next) => {
           jwt.sign({ id: user.id }, process.env.REACT_APP_JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
             if (err) throw err
             res.json({
-              token,
               user: {
                 id: user.id,
                 username: user.username,
                 email: user.email,
-                favouritePlaces: user.favouritePlaces
-              }
+                favouritePlaces: user.favouritePlaces,
+              },
+              token: token
             })
           })
         })
     })
+})
+
+router.get('/facebook', passport.authenticate('facebook'))
+
+router.get('/facebook/callback',
+  passport.authenticate('facebook', { failureRedirect: '/',
+                                      session: false }),
+  function (req, res) {
+    facebookUser = req.user
+    res.redirect('http://localhost:3000')
+    // process.env.NODE_ENV === 'production' ? 'https://explore-welly.herokuapp.com/' : 'http://localhost:3000/'
+  }
+)
+
+router.get('/facebook/success', function (req, res) {
+  if (Object.keys(facebookUser).length > 0) {
+    res.json(facebookUser)
+  }
+})
+
+router.get('/logout', function (req, res) {
+  facebookUser = {}
 })
 
 module.exports = router

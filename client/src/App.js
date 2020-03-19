@@ -1,5 +1,6 @@
 import React, { Component } from 'react'
-import WebFont from 'webfontloader';
+import WebFont from 'webfontloader'
+import axios from 'axios'
 
 import NavMenu from './components/NavMenu'
 import Body from './components/Body'
@@ -7,12 +8,13 @@ import './App.css'
 
 import { Provider } from 'react-redux'
 import store from './store'
-import { loadUser } from './actions/authActions'
+import { loadUser, facebookAuth } from './actions/authActions'
 
 class App extends Component {
 
   componentDidMount() {
     store.dispatch(loadUser())
+    store.dispatch(facebookAuth())
   }
 
   render() {

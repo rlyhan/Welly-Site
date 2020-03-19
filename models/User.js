@@ -1,15 +1,12 @@
 var mongoose = require('mongoose');
-var bcrypt = require('bcryptjs');
 
 var UserSchema = new mongoose.Schema({
   username: {
     type: String,
-    required: true,
     unique: true
   },
   email: {
     type: String,
-    required: true,
     unique: true,
     validate: {
       validator: function(email) {
@@ -18,9 +15,14 @@ var UserSchema = new mongoose.Schema({
       }
     }
   },
+  facebook: {
+    id: String,
+    token: String,
+    name: String,
+    picture: Object
+  },
   password: {
-    type: String,
-    required: true
+    type: String
   },
   favouritePlaces: [{
     name: {
@@ -33,14 +35,14 @@ var UserSchema = new mongoose.Schema({
 });
 
 // Hash password
-UserSchema.pre('save', function(next) {
-  var user = this;
-  bcrypt.hash(user.password, 10, (err, hash) => {
-    if (err) return next(err);
-    user.password = hash;
-    next();
-  })
-});
+// UserSchema.pre('save', function(next) {
+//   var user = this;
+//   bcrypt.hash(user.password, 10, (err, hash) => {
+//     if (err) return next(err);
+//     user.password = hash;
+//     next();
+//   })
+// });
 
 var User = mongoose.model('User', UserSchema);
 module.exports = User;

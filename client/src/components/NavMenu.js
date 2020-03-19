@@ -95,7 +95,36 @@ class NavMenu extends Component {
             </Nav>
           </Collapse>
         </Navbar>
-       : null
+       :
+       <Navbar className="home-top-navigation py-1 px-1" style={{backgroundColor: 'black'}} dark expand="lg">
+         <Nav navbar className="ml-auto">
+         {
+           this.props.auth.loading ? null :
+           <>
+           {
+             this.props.auth.authenticated ?
+             <>
+               <NavItem className="profile-button">
+                 <NavLink href="/profile" className="px-3" style={{color: 'white', fontWeight: 600}}>PROFILE</NavLink>
+               </NavItem>
+               <NavItem className="logout-button">
+                 <NavLink className="px-3" style={{color: 'white', fontWeight: 600}} onClick={this.props.logout}>LOGOUT</NavLink>
+               </NavItem>
+             </>
+             :
+             <>
+               <NavItem>
+                 <LoginModal />
+               </NavItem>
+               <NavItem>
+                 <RegisterModal />
+               </NavItem>
+             </>
+           }
+           </>
+         }
+         </Nav>
+       </Navbar>
       }
       </>
     )

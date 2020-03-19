@@ -17,6 +17,7 @@ import { getCurrentWeather } from '../actions/airvisualInfoActions'
 import { getPopularPlaces } from '../actions/yelpInfoActions'
 import { displayNavbar, hideNavbar } from '../actions/otherActions'
 
+
 import WeatherModal from './modals/WeatherModal'
 import GeneralSearch from './GeneralSearch'
 
