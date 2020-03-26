@@ -101,27 +101,23 @@ export const login = ({ loginName, password }) => dispatch => {
 }
 
 // Auth with Facebook
-export const facebookAuth = () => (dispatch, getState) => {
+export const facebookAuth = () => dispatch => {
 
-  if (getState().auth.token) {
-
-    axios.get('/api/auth/facebook/success', {
-      credentials: "same-origin"
+  axios.get('/api/auth/facebook/success', {
+    credentials: "same-origin"
+  })
+    .then(res => {
+      dispatch({
+        type: LOGIN_SUCCESS,
+        payload: res.data
+      })
     })
-      .then(res => {
-        dispatch({
-          type: LOGIN_SUCCESS,
-          payload: res.data
-        })
+    .catch(err => {
+      dispatch({
+        type: LOGIN_FAIL,
+        payload: err
       })
-      .catch(err => {
-        dispatch({
-          type: LOGIN_FAIL,
-          payload: err
-        })
-      })
-
-  }
+    })
 
 }
 

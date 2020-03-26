@@ -37,7 +37,8 @@ passport.deserializeUser(function(user, done) {
 passport.use(new FacebookStrategy({
     clientID: process.env.FACEBOOK_APP_ID,
     clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: 'http://localhost:5000/api/auth/facebook/callback',
+    callbackURL: process.env.NODE_ENV === 'production' ?
+                'https://explore-welly.herokuapp.com/auth/facebook/callback' : 'http://localhost:5000/api/auth/facebook/callback',
     profileFields: ['id', 'displayName', 'picture']
   },
   function(accessToken, refreshToken, profile, done) {
