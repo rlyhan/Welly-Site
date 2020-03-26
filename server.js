@@ -100,7 +100,7 @@ mongoose
   .catch(err => console.log(err))
 
 // Use routes
-app.use('/api/auth', auth)
+app.use('/api/auth/', auth)
 app.use('/api/yelp/', yelp)
 app.use('/api/airvisual/', airvisual)
 
