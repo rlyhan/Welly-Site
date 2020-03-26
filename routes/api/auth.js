@@ -1,8 +1,8 @@
 const express = require('express')
 const router = express.Router()
-const bcrypt = require('bcryptjs')
 const jwt = require('jsonwebtoken')
 const passport = require('passport')
+const bcrypt = require('bcryptjs')
 const auth = require('../../middleware/auth')
 
 const User = require('../../models/User')
@@ -52,12 +52,6 @@ router.post('/register', (req, res, next) => {
         password
       }
 
-      bcrypt.hash(newUser.password, 10, (err, hash) => {
-        if (err) return next(err);
-        newUser.password = hash;
-        next();
-      })
-
       User.create(newUser, (err, user) => {
         if (err) {
           return next(err)
@@ -89,11 +83,14 @@ router.post('/login', (req, res, next) => {
     .then(user => {
       if (!user) return res.status(400).json({ msg: 'User does not exist.' })
 
+      console.log("user found")
+
       bcrypt.compare(password, user.password)
         .then(match => {
           if(!match) return res.status(400).json({ msg: 'Invalid credentials.' })
           jwt.sign({ id: user.id }, process.env.REACT_APP_JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
             if (err) throw err
+            console.log("logged in")
             res.json({
               user: {
                 id: user.id,
@@ -115,8 +112,7 @@ router.get('/facebook/callback',
                                       session: false }),
   function (req, res) {
     facebookUser = req.user
-    res.redirect('http://localhost:3000')
-    // process.env.NODE_ENV === 'production' ? 'https://explore-welly.herokuapp.com/' : 'http://localhost:3000/'
+    res.redirect(process.env.NODE_ENV === 'production' ? 'https://explore-welly.herokuapp.com/' : 'http://localhost:3000/')
   }
 )
 

@@ -1,4 +1,5 @@
-var mongoose = require('mongoose');
+var mongoose = require('mongoose')
+var bcrypt = require('bcryptjs')
 
 var UserSchema = new mongoose.Schema({
   username: {
@@ -11,7 +12,7 @@ var UserSchema = new mongoose.Schema({
     validate: {
       validator: function(email) {
         var regex = /^(([^<>()\[\]\\.,;:\s@"]+(\.[^<>()\[\]\\.,;:\s@"]+)*)|(".+"))@((\[[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}\.[0-9]{1,3}])|(([a-zA-Z\-0-9]+\.)+[a-zA-Z]{2,}))$/;
-        return regex.test(email);
+        return regex.test(email)
       }
     }
   },
@@ -35,14 +36,14 @@ var UserSchema = new mongoose.Schema({
 });
 
 // Hash password
-// UserSchema.pre('save', function(next) {
-//   var user = this;
-//   bcrypt.hash(user.password, 10, (err, hash) => {
-//     if (err) return next(err);
-//     user.password = hash;
-//     next();
-//   })
-// });
+UserSchema.pre('save', function(next) {
+  var user = this
+  bcrypt.hash(user.password, 10, (err, hash) => {
+    if (err) return next(err)
+    user.password = hash
+    next()
+  })
+})
 
-var User = mongoose.model('User', UserSchema);
-module.exports = User;
+var User = mongoose.model('User', UserSchema)
+module.exports = User

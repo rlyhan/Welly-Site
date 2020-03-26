@@ -64,13 +64,19 @@ class RegisterModal extends Component {
   createAccount = () => {
     this.props.clearAuthError()
     this.setState({
-      registerButtonClicked: true,
       existingUserWarningShowing: false
     })
+
     const { email, username, password, confirmPassword } = this.state
+
     if (password !== confirmPassword) {
       this.setState({ passwordWarningShowing: true })
     } else {
+      this.setState({
+        registerButtonClicked: true,
+        passwordWarningShowing: false
+      })
+
       var user = { email, username, password }
       this.props.register(user)
     }
@@ -103,7 +109,7 @@ class RegisterModal extends Component {
                 <Label for="confirm-password-field">Confirm Password</Label>
                 <Input type="password" name="confirmPassword" id="confirm-password-field" onChange={this.onChange} />
               </FormGroup>
-              { this.state.passwordWarningShowing && <p class="text-danger">Passwords must match.</p> }
+              { this.state.passwordWarningShowing && <p className="text-danger">Passwords must match.</p> }
             </Form>
           </ModalBody>
           <ModalFooter>

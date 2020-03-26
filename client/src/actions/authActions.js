@@ -45,7 +45,7 @@ export const loadUser = () => (dispatch, getState) => {
       })
 
   }
-  
+
 }
 
 // Register user
@@ -84,6 +84,8 @@ export const login = ({ loginName, password }) => dispatch => {
 
   const body = JSON.stringify({ loginName, password })
 
+  console.log(loginName, password)
+
   axios.post('/api/auth/login', body, config)
     .then(res => dispatch({
       type: LOGIN_SUCCESS,
@@ -99,24 +101,27 @@ export const login = ({ loginName, password }) => dispatch => {
 }
 
 // Auth with Facebook
-export const facebookAuth = () => dispatch => {
+export const facebookAuth = () => (dispatch, getState) => {
 
-  axios.get('/api/auth/facebook/success', {
-    credentials: "same-origin"
-  })
-    .then(res => {
-      dispatch({
-        type: LOGIN_SUCCESS,
-        payload: res.data
-      })
+  if (getState().auth.token) {
+
+    axios.get('/api/auth/facebook/success', {
+      credentials: "same-origin"
     })
-    .catch(err => {
-      console.log("fb login fail")
-      dispatch({
-        type: LOGIN_FAIL,
-        payload: err
+      .then(res => {
+        dispatch({
+          type: LOGIN_SUCCESS,
+          payload: res.data
+        })
       })
-    })
+      .catch(err => {
+        dispatch({
+          type: LOGIN_FAIL,
+          payload: err
+        })
+      })
+
+  }
 
 }
 

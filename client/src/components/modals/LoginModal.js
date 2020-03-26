@@ -12,8 +12,7 @@ import {
   Label,
   Input
 } from 'reactstrap'
-
-import '../../App.css'
+import axios from 'axios'
 
 import { login, clearAuthError } from '../../actions/authActions'
 
@@ -55,7 +54,7 @@ class LoginModal extends Component {
 
   loginAccount = () => {
     this.props.clearAuthError()
-    const { loginName, password } = this.state
+    var { loginName, password } = this.state
     this.props.login({loginName, password})
   }
 
@@ -78,7 +77,9 @@ class LoginModal extends Component {
               { this.state.warningShowing && <p className="text-danger">Login failed.</p> }
               <FormGroup>
                 <img className="facebook-logo" src={require('../../images/facebook.png')}></img>
-                <a href="http://localhost:5000/api/auth/facebook"><Label for="facebook-login" className="facebook-link">&nbsp;&nbsp;Login with Facebook</Label></a>
+                <a href="http://localhost:5000/api/auth/facebook">
+                  <Label for="facebook-login" className="facebook-link">&nbsp;&nbsp;Login with Facebook</Label>
+                </a>
               </FormGroup>
             </Form>
           </ModalBody>
