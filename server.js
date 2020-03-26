@@ -41,7 +41,6 @@ passport.use(new FacebookStrategy({
     profileFields: ['id', 'displayName', 'picture']
   },
   function(accessToken, refreshToken, profile, done) {
-    console.log(profile)
     process.nextTick(function() {
       User.findOne({'facebook.id': profile.id}, function(err, user){
         if(err) return done
