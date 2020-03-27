@@ -14,11 +14,11 @@ const auth = require('./routes/api/auth')
 const yelp = require('./routes/api/yelp')
 const airvisual = require('./routes/api/airvisual')
 
-// Bodyparser Middleware
-app.use(express.json())
-
 // Use Cross Origin Resource Sharing
 app.use(cors())
+
+// Bodyparser Middleware
+app.use(express.json())
 
 // Passport Middleware
 app.use(passport.initialize())

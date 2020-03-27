@@ -83,14 +83,11 @@ router.post('/login', (req, res, next) => {
     .then(user => {
       if (!user) return res.status(400).json({ msg: 'User does not exist.' })
 
-      console.log("user found")
-
       bcrypt.compare(password, user.password)
         .then(match => {
           if(!match) return res.status(400).json({ msg: 'Invalid credentials.' })
           jwt.sign({ id: user.id }, process.env.REACT_APP_JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
             if (err) throw err
-            console.log("logged in")
             res.json({
               user: {
                 id: user.id,

@@ -3,7 +3,7 @@ module.exports = function(app) {
   app.use(
     '/api/*',
     createProxyMiddleware({
-      target: 'http://[::1]:5000',
+      target: 'https://explore-welly.herokuapp.com/',
       changeOrigin: true,
     })
   );
