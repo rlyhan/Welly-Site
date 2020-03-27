@@ -30,74 +30,74 @@ mongoose
   .then(() => console.log('MongoDB Connected...'))
   .catch(err => console.log(err))
 
-// Passport Middleware
-app.use(passport.initialize())
-app.use(passport.session())
-
-// Passport Session
-passport.serializeUser(function(user, done) {
-  done(null, user)
-})
-
-passport.deserializeUser(function(user, done) {
-  done(null, user)
-})
-
-// Use Passport Facebook Strategy
-passport.use(new FacebookStrategy({
-    clientID: process.env.FACEBOOK_APP_ID,
-    clientSecret: process.env.FACEBOOK_APP_SECRET,
-    callbackURL: process.env.NODE_ENV === 'production' ?
-                'https://explore-welly.herokuapp.com/auth/facebook/callback' : 'http://localhost:5000/api/auth/facebook/callback',
-    profileFields: ['id', 'displayName', 'picture']
-  },
-  function(accessToken, refreshToken, profile, done) {
-    process.nextTick(function() {
-      User.findOne({'facebook.id': profile.id}, function(err, user){
-        if(err) return done
-        if(user) {
-          jwt.sign({ id: user.id }, process.env.REACT_APP_JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
-            if (err) throw err
-
-            var userObj = {
-              user: {
-                id: user.id,
-                username: user.username,
-                favouritePlaces: user.favouritePlaces
-              },
-              token: token
-            }
-
-            return done(null, userObj)
-          })
-        } else {
-          const newUser = {
-            "username": profile.displayName,
-            "facebook.id": profile.id
-          }
-
-          User.create(newUser, (err, user) => {
-            if (err) return done(err)
-            jwt.sign({ id: user.id }, process.env.REACT_APP_JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
-              if (err) throw err
-
-              var userObj = {
-                user: {
-                  id: user.id,
-                  username: user.username,
-                  favouritePlaces: user.favouritePlaces
-                },
-                token: token
-              }
-
-              return done(null, userObj)
-            })
-          })
-        }
-      })
-    })
-  }
-))
+// // Passport Middleware
+// app.use(passport.initialize())
+// app.use(passport.session())
+//
+// // Passport Session
+// passport.serializeUser(function(user, done) {
+//   done(null, user)
+// })
+//
+// passport.deserializeUser(function(user, done) {
+//   done(null, user)
+// })
+//
+// // Use Passport Facebook Strategy
+// passport.use(new FacebookStrategy({
+//     clientID: process.env.FACEBOOK_APP_ID,
+//     clientSecret: process.env.FACEBOOK_APP_SECRET,
+//     callbackURL: process.env.NODE_ENV === 'production' ?
+//                 'https://explore-welly.herokuapp.com/auth/facebook/callback' : 'http://localhost:5000/api/auth/facebook/callback',
+//     profileFields: ['id', 'displayName', 'picture']
+//   },
+//   function(accessToken, refreshToken, profile, done) {
+//     process.nextTick(function() {
+//       User.findOne({'facebook.id': profile.id}, function(err, user){
+//         if(err) return done
+//         if(user) {
+//           jwt.sign({ id: user.id }, process.env.REACT_APP_JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+//             if (err) throw err
+//
+//             var userObj = {
+//               user: {
+//                 id: user.id,
+//                 username: user.username,
+//                 favouritePlaces: user.favouritePlaces
+//               },
+//               token: token
+//             }
+//
+//             return done(null, userObj)
+//           })
+//         } else {
+//           const newUser = {
+//             "username": profile.displayName,
+//             "facebook.id": profile.id
+//           }
+//
+//           User.create(newUser, (err, user) => {
+//             if (err) return done(err)
+//             jwt.sign({ id: user.id }, process.env.REACT_APP_JWT_SECRET, { expiresIn: 3600 }, (err, token) => {
+//               if (err) throw err
+//
+//               var userObj = {
+//                 user: {
+//                   id: user.id,
+//                   username: user.username,
+//                   favouritePlaces: user.favouritePlaces
+//                 },
+//                 token: token
+//               }
+//
+//               return done(null, userObj)
+//             })
+//           })
+//         }
+//       })
+//     })
+//   }
+// ))
 
 // Use routes
 app.use('/api/auth/', auth)
