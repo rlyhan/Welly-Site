@@ -14,7 +14,7 @@ class App extends Component {
 
   componentDidMount() {
     store.dispatch(loadUser())
-    store.dispatch(facebookAuth())
+    // store.dispatch(facebookAuth())
   }
 
   render() {
